@@ -10,6 +10,7 @@ export default class extends BaseSchema {
       table.string('second_name', 180).notNullable()
       table.string('surname', 180).notNullable()
       table.string('second_sur_name', 180).notNullable()
+      table.integer('type_document').notNullable()
       table.integer('document_number').notNullable()
       table.string('email', 180).notNullable().unique()
       table.string('password', 180).notNullable()
