@@ -16,7 +16,7 @@ export default class extends BaseSchema {
       table.string('password', 180).notNullable()
       table.integer('rol_id').notNullable()
       table.string('phone', 180).notNullable()
-      table.boolean('state').notNullable()
+      table.boolean('state').notNullable().defaultTo(true)
 
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })

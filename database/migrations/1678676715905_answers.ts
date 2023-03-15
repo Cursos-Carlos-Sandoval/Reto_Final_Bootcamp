@@ -9,7 +9,7 @@ export default class extends BaseSchema {
       table.string('answer', 180).notNullable()
       table.boolean('is_correct').notNullable()
       table.integer('question_id').notNullable()
-      table.boolean('state').notNullable()
+      table.boolean('state').notNullable().defaultTo(true)
 
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
