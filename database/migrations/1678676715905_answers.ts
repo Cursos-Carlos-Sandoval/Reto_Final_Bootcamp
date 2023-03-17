@@ -8,7 +8,7 @@ export default class extends BaseSchema {
       table.increments('id').primary()
       table.string('answer', 180).notNullable()
       table.boolean('is_correct').notNullable()
-      table.integer('question_id').notNullable()
+      table.integer('question_id').notNullable().unsigned()
       table.boolean('state').notNullable().defaultTo(true)
 
       table.timestamp('created_at', { useTz: true })

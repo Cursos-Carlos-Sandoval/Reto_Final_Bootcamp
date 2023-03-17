@@ -3,35 +3,52 @@ import jwt, { JwtPayload } from 'jsonwebtoken'
 import Env from '@ioc:Adonis/Core/Env'
 import bcryptjs from 'bcryptjs'
 import User from '../../Models/User'
+import Role from '../../Models/Role'
+import Database from '@ioc:Adonis/Lucid/Database'
+import TypesDocument from '../../Models/TypesDocument'
 
 export default class UsersController {
-  private static createUser(dataRequest: any) {
-    const {
-      firstName,
-      secondName,
-      surname,
-      secondSurName,
-      typeDocument,
-      documentNumber,
-      email,
-      password,
-      rol,
-      phone,
-    } = dataRequest
+  private static async createUser(dataRequest: any, role_id: number) {
+    const trx = await Database.transaction()
 
-    const user = new User()
-    user.first_name = firstName
-    user.second_name = secondName
-    user.surname = surname
-    user.second_sur_name = secondSurName
-    user.type_document = typeDocument
-    user.document_number = documentNumber
-    user.email = email
-    user.password = password
-    user.rol_id = rol
-    user.phone = phone
+    try {
+      const {
+        firstName,
+        secondName,
+        surname,
+        secondSurName,
+        typeDocument,
+        documentNumber,
+        email,
+        password,
+        phone,
+      } = dataRequest
 
-    return user
+      // User info
+      const user = new User()
+      user.first_name = firstName
+      user.second_name = secondName
+      user.surname = surname
+      user.second_sur_name = secondSurName
+      user.document_number = documentNumber
+      user.email = email
+      user.password = password
+      user.phone = phone
+
+      // Relation with role
+      const role = await Role.findByOrFail('id', role_id)
+      User.$getRelation('rol_id').setRelated(user, role)
+
+      // Relation with Type Document
+      const tp = await TypesDocument.findByOrFail('id', typeDocument)
+      User.$getRelation('type_document').setRelated(user, tp)
+
+      await user.save()
+      await trx.commit()
+    } catch (error) {
+      console.error(error)
+      await trx.rollback()
+    }
   }
 
   private static async getUserByEmail(email: string): Promise<User | null> {
@@ -68,11 +85,14 @@ export default class UsersController {
     return jwt.verify(token, Env.get('JWT_SECRET_KEY'), { complete: true }).payload
   }
 
-  public async register({ request, response }: HttpContextContract) {
-    const user = UsersController.createUser(request.all())
-    await user.save()
+  public async registerStudent({ request, response }: HttpContextContract) {
+    try {
+      await UsersController.createUser(request.all(), 2)
 
-    return response.status(200).json({ user, msg: 'Registered user' })
+      response.status(200).json({ state: true, message: 'Estudiante creado correctamente' })
+    } catch (error) {
+      response.status(400).json({ state: false, message: 'Fallo en la creación del estudiante' })
+    }
   }
 
   public async login({ request, response }: HttpContextContract) {

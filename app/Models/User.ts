@@ -14,15 +14,19 @@ export default class User extends BaseModel {
   public surname: string
   @column()
   public second_sur_name: string
+  @hasOne(() => TypesDocument, {
+    foreignKey: 'id',
+  })
+  public type_document: HasOne<typeof TypesDocument>
   @column()
-  public type_document: number
-  @hasOne(() => TypesDocument)
-  public document_number: HasOne<typeof TypesDocument>
+  public document_number: number
   @column()
   public email: string
   @column()
   public password: string
-  @hasOne(() => Role)
+  @hasOne(() => Role, {
+    foreignKey: 'id',
+  })
   public rol_id: HasOne<typeof Role>
   @column()
   public phone: string
