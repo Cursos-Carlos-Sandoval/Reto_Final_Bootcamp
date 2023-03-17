@@ -15,9 +15,8 @@ export default class UsersController {
       documentNumber,
       email,
       password,
-      rolId,
+      rol,
       phone,
-      state,
     } = dataRequest
 
     const user = new User()
@@ -29,9 +28,8 @@ export default class UsersController {
     user.document_number = documentNumber
     user.email = email
     user.password = password
-    user.rol_id = rolId
+    user.rol_id = rol
     user.phone = phone
-    user.state = state
 
     return user
   }
