@@ -83,10 +83,11 @@ export default class UsersController {
 
     try {
       const user = await UsersController.getUserByEmail(email)
-      if (!user) return response.status(400).json({ msg: 'Invalid credentials' })
+      if (!user)
+        return response.status(400).json({ state: false, message: 'contraseña o email invalido ' })
 
       if (!UsersController.isValidPassword(password, user))
-        return response.status(400).json({ msg: 'Invalid credentials' })
+        return response.status(400).json({ state: false, message: 'contraseña o email invalido ' })
 
       const payload = {
         id: user.id,
@@ -98,12 +99,16 @@ export default class UsersController {
 
       const token: string = UsersController.createToken(payload)
       response.status(200).json({
-        token,
-        msg: 'User login',
+        state: true,
+        id: user.id,
+        name: `${user.first_name} ${user.second_name} ${user.surname} ${user.second_sur_name}`,
+        role: `${user.rol_id.name}`,
+        token: token,
+        message: 'Ingreso exitoso',
       })
     } catch (error) {
       console.error(error)
-      response.json({ msg: 'Invalid credentials' })
+      response.json({ state: false, message: 'contraseña o email invalido ' })
     }
   }
 }
