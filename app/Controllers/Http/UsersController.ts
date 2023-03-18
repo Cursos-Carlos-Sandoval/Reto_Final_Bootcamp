@@ -81,20 +81,10 @@ export default class UsersController {
 
   public async getAllStudents({ request, response }: HttpContextContract) {
     try {
-      const { filter } = request.all()
-      const perPage = request.input('perPage', 10)
-      const page = request.input('page', 1)
+      const params = request.all()
 
       const students = await Database.from('users')
-        .where(
-          'rol_id',
-          Database.from('roles').select('id').where('name', 'student').orWhere('name', 'estudiante')
-        ) // get role_id of student
-        .andWhere((query) => {
-          for (const columnName in filter) {
-            query.orWhere(columnName, filter[columnName])
-          }
-        }) // Add additional filters
+        .where('rol_id', Database.from('roles').select('id').where('name', 'Estudiante')) // get role_id of student
         .select(
           'first_name',
           'second_name',
@@ -105,7 +95,7 @@ export default class UsersController {
           'email',
           'phone'
         )
-        .paginate(page, perPage)
+        .paginate(params?.page ?? 1, params?.perPage ?? 10)
 
       response
         .status(200)
