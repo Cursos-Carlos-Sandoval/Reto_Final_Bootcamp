@@ -3,9 +3,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken'
 import Env from '@ioc:Adonis/Core/Env'
 import bcryptjs from 'bcryptjs'
 import User from '../../Models/User'
-import Role from '../../Models/Role'
 import Database from '@ioc:Adonis/Lucid/Database'
-import TypesDocument from '../../Models/TypesDocument'
 
 export default class UsersController {
   private static async createUser(dataRequest: any) {
