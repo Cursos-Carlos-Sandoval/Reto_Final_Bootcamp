@@ -23,6 +23,7 @@ export default class UsersController {
         phone,
       } = dataRequest
 
+      const salt = bcryptjs.genSaltSync()
       await User.create({
         first_name: firstName,
         second_name: secondName,
@@ -31,7 +32,7 @@ export default class UsersController {
         type_document: typeDocument,
         document_number: documentNumber,
         email: email,
-        password: password,
+        password: bcryptjs.hashSync(password, salt),
         rol_id: rol,
         phone: phone,
       })
