@@ -12,6 +12,14 @@ export default class extends BaseSchema {
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
     })
+
+    this.defer(async () => {
+      await this.db.table(this.tableName).insert([
+        { name: 'Cédula de ciudadanía', created_at: new Date(), updated_at: new Date() },
+        { name: 'Tarjeta de identidad', created_at: new Date(), updated_at: new Date() },
+        { name: 'Cédula de extranjería', created_at: new Date(), updated_at: new Date() },
+      ])
+    })
   }
 
   public async down() {

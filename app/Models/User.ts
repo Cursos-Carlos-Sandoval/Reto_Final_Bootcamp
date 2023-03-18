@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, HasOne, column, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import TypesDocument from './TypesDocument'
 import Role from './Role'
 
@@ -14,20 +14,16 @@ export default class User extends BaseModel {
   public surname: string
   @column()
   public second_sur_name: string
-  @hasOne(() => TypesDocument, {
-    foreignKey: 'id',
-  })
-  public type_document: HasOne<typeof TypesDocument>
+  @column()
+  public type_document: number
   @column()
   public document_number: number
   @column()
   public email: string
   @column()
   public password: string
-  @hasOne(() => Role, {
-    foreignKey: 'id',
-  })
-  public rol_id: HasOne<typeof Role>
+  @column()
+  public rol_id: number
   @column()
   public phone: string
   @column()
@@ -37,4 +33,15 @@ export default class User extends BaseModel {
   public createdAt: DateTime
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @belongsTo(() => TypesDocument, {
+    localKey: 'id',
+    foreignKey: 'type_document',
+  })
+  public typeDoc: BelongsTo<typeof TypesDocument>
+  @belongsTo(() => Role, {
+    localKey: 'id',
+    foreignKey: 'rol_id',
+  })
+  public role: BelongsTo<typeof Role>
 }

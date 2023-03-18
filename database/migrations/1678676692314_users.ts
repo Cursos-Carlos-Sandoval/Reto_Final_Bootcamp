@@ -23,7 +23,7 @@ export default class extends BaseSchema {
     })
 
     this.schema.alterTable('users', (table) => {
-      table.foreign('document_number').references('types_documents.id')
+      table.foreign('type_document').references('types_documents.id')
       table.foreign('rol_id').references('roles.id')
     })
   }

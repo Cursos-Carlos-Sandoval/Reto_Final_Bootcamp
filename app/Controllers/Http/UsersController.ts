@@ -8,7 +8,7 @@ import Database from '@ioc:Adonis/Lucid/Database'
 import TypesDocument from '../../Models/TypesDocument'
 
 export default class UsersController {
-  private static async createUser(dataRequest: any, role_id: number) {
+  private static async createUser(dataRequest: any) {
     const trx = await Database.transaction()
 
     try {
@@ -21,33 +21,28 @@ export default class UsersController {
         documentNumber,
         email,
         password,
+        rol,
         phone,
       } = dataRequest
 
-      // User info
-      const user = new User()
-      user.first_name = firstName
-      user.second_name = secondName
-      user.surname = surname
-      user.second_sur_name = secondSurName
-      user.document_number = documentNumber
-      user.email = email
-      user.password = password
-      user.phone = phone
+      await User.create({
+        first_name: firstName,
+        second_name: secondName,
+        surname: surname,
+        second_sur_name: secondSurName,
+        type_document: typeDocument,
+        document_number: documentNumber,
+        email: email,
+        password: password,
+        rol_id: rol,
+        phone: phone,
+      })
 
-      // Relation with role
-      const role = await Role.findByOrFail('id', role_id)
-      User.$getRelation('rol_id').setRelated(user, role)
-
-      // Relation with Type Document
-      const tp = await TypesDocument.findByOrFail('id', typeDocument)
-      User.$getRelation('type_document').setRelated(user, tp)
-
-      await user.save()
       await trx.commit()
     } catch (error) {
       console.error(error)
       await trx.rollback()
+      throw new Error('User creation failed')
     }
   }
 
@@ -85,10 +80,46 @@ export default class UsersController {
     return jwt.verify(token, Env.get('JWT_SECRET_KEY'), { complete: true }).payload
   }
 
+  public async getAllStudents({ request, response }: HttpContextContract) {
+    try {
+      const { filter } = request.all()
+      const perPage = request.input('perPage', 10)
+      const page = request.input('page', 1)
+
+      const students = await Database.from('users')
+        .where(
+          'rol_id',
+          Database.from('roles').select('id').where('name', 'student').orWhere('name', 'estudiante')
+        ) // get role_id of student
+        .andWhere((query) => {
+          for (const columnName in filter) {
+            query.orWhere(columnName, filter[columnName])
+          }
+        }) // Add additional filters
+        .select(
+          'first_name',
+          'second_name',
+          'surname',
+          'second_sur_name',
+          'type_document',
+          'document_number',
+          'email',
+          'phone'
+        )
+        .paginate(page, perPage)
+
+      response
+        .status(200)
+        .json({ state: true, message: 'Listado de estudiantes', users: [students] })
+    } catch (error) {
+      console.error(error)
+      response.status(400).json({ state: false, message: 'Fallo en el listado de estudiantes' })
+    }
+  }
+
   public async registerStudent({ request, response }: HttpContextContract) {
     try {
-      await UsersController.createUser(request.all(), 2)
-
+      await UsersController.createUser(request.all())
       response.status(200).json({ state: true, message: 'Estudiante creado correctamente' })
     } catch (error) {
       response.status(400).json({ state: false, message: 'Fallo en la creación del estudiante' })
@@ -120,7 +151,7 @@ export default class UsersController {
         state: true,
         id: user.id,
         name: `${user.first_name} ${user.second_name} ${user.surname} ${user.second_sur_name}`,
-        role: `${user.rol_id.name}`,
+        role: `${user.role.name}`,
         token: token,
         message: 'Ingreso exitoso',
       })

@@ -12,6 +12,13 @@ export default class extends BaseSchema {
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
     })
+
+    this.defer(async () => {
+      await this.db.table(this.tableName).insert([
+        { name: 'Admin', created_at: new Date(), updated_at: new Date() },
+        { name: 'Student', created_at: new Date(), updated_at: new Date() },
+      ])
+    })
   }
 
   public async down() {
