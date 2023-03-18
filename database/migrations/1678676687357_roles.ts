@@ -15,8 +15,8 @@ export default class extends BaseSchema {
 
     this.defer(async () => {
       await this.db.table(this.tableName).insert([
-        { name: 'Admin', created_at: new Date(), updated_at: new Date() },
-        { name: 'Student', created_at: new Date(), updated_at: new Date() },
+        { name: 'Administrador', created_at: new Date(), updated_at: new Date() },
+        { name: 'Estudiante', created_at: new Date(), updated_at: new Date() },
       ])
     })
   }

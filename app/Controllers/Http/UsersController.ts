@@ -58,7 +58,7 @@ export default class UsersController {
     const options = {
       expiresIn: '60 mins',
     }
-    return jwt.sign(payload, Env.get('JWT_SECRET_KEY'), options)
+    return jwt.sign(payload, Env.get('JWT_PRIVATE_KEY'), options)
   }
 
   public static getTokenFromHeader(authorizationHeader: string): string {
@@ -67,7 +67,7 @@ export default class UsersController {
 
   public static verifyToken(authorizationHeader: string): void {
     const token = UsersController.getTokenFromHeader(authorizationHeader)
-    jwt.verify(token, Env.get('JWT_SECRET_KEY'), (error: any) => {
+    jwt.verify(token, Env.get('JWT_PRIVATE_KEY'), (error: any) => {
       if (error) {
         throw new Error('Expired token')
       }
@@ -76,7 +76,7 @@ export default class UsersController {
 
   public static getTokenPayload(authorizationHeader: string): JwtPayload | string {
     const token = UsersController.getTokenFromHeader(authorizationHeader)
-    return jwt.verify(token, Env.get('JWT_SECRET_KEY'), { complete: true }).payload
+    return jwt.verify(token, Env.get('JWT_PRIVATE_KEY'), { complete: true }).payload
   }
 
   public async getAllStudents({ request, response }: HttpContextContract) {
@@ -146,11 +146,12 @@ export default class UsersController {
       }
 
       const token: string = UsersController.createToken(payload)
+      const roleName = await Database.from('roles').select('name').where('id', user.rol_id)
       response.status(200).json({
         state: true,
         id: user.id,
         name: `${user.first_name} ${user.second_name} ${user.surname} ${user.second_sur_name}`,
-        role: `${user.role.name}`,
+        role: `${roleName[0].name}`,
         token: token,
         message: 'Ingreso exitoso',
       })
