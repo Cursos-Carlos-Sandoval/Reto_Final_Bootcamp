@@ -43,6 +43,7 @@ Route.group(() => {
 
     Route.group(() => {
       Route.get('/getQuestions', 'FormsController.getAllQuestions')
+      Route.post('/postQuestions', 'FormsController.saveQuestions')
     }).prefix('/form')
 
     Route.group(() => {
