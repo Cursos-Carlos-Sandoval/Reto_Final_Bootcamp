@@ -25,7 +25,9 @@ Route.group(() => {
 
   Route.group(() => {
     Route.get('/getUsers', 'UsersController.getAllStudents')
+    Route.get('/getUser/:id_user', 'UsersController.getUserById')
     Route.post('/create', 'UsersController.registerStudent')
+    Route.post('/update/:id_user', 'UsersController.editUser')
   }).prefix('/user')
 
   Route.group(() => {

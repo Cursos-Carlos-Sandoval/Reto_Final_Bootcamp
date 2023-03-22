@@ -152,4 +152,38 @@ export default class UsersController {
       response.json({ state: false, message: 'contraseña o email invalido ' })
     }
   }
+
+  public async editUser({ request, response }: HttpContextContract) {
+    try {
+      const trx = await Database.transaction()
+      await User.query()
+        .where('id', request.input('id_user'))
+        .update({
+          first_name: request.input('firstName'),
+          second_name: request.input('secondName'),
+          surname: request.input('surname'),
+          second_sur_name: request.input('secondSurName'),
+          type_document: request.input('typeDocument'),
+          document_number: request.input('documentNumber'),
+          email: request.input('email'),
+          phone: request.input('phone'),
+        })
+      await trx.commit()
+
+      response.status(200).json({ state: true, message: 'Se actualizo correctamente' })
+    } catch (error) {
+      response.status(400).json({ state: false, message: 'Error al actualizar' })
+    }
+  }
+
+  public async getUserById({ request, response }: HttpContextContract) {
+    try {
+      const user = await User.query().where('id', request.input('id_user')).first()
+      response.status(200).json({ state: true, user: user })
+    } catch (error) {
+      response
+        .status(400)
+        .json({ state: false, message: 'Error al consultar el detalle del usuario' })
+    }
+  }
 }
