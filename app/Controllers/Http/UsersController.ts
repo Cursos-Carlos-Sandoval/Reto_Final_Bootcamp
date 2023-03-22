@@ -85,6 +85,7 @@ export default class UsersController {
 
       const students = await Database.from('users')
         .where('rol_id', Database.from('roles').select('id').where('name', 'Estudiante')) // get role_id of student
+        .andWhere('state', true)
         .select(
           'first_name',
           'second_name',
@@ -154,8 +155,8 @@ export default class UsersController {
   }
 
   public async editUser({ request, response }: HttpContextContract) {
+    const trx = await Database.transaction()
     try {
-      const trx = await Database.transaction()
       await User.query()
         .where('id', request.input('id_user'))
         .update({
@@ -172,13 +173,17 @@ export default class UsersController {
 
       response.status(200).json({ state: true, message: 'Se actualizo correctamente' })
     } catch (error) {
+      await trx.rollback()
       response.status(400).json({ state: false, message: 'Error al actualizar' })
     }
   }
 
   public async getUserById({ request, response }: HttpContextContract) {
     try {
-      const user = await User.query().where('id', request.input('id_user')).first()
+      const user = await User.query()
+        .where('id', request.input('id_user'))
+        .andWhere('state', true)
+        .first()
       response.status(200).json({ state: true, user: user })
     } catch (error) {
       response
