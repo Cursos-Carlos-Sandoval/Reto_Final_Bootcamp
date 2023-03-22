@@ -24,26 +24,35 @@ Route.group(() => {
   Route.post('/login', 'UsersController.login')
 
   Route.group(() => {
-    Route.get('/getUsers', 'UsersController.getAllStudents')
-    Route.get('/getUser/:id_user', 'UsersController.getUserById')
-    Route.post('/create', 'UsersController.registerStudent')
-    Route.post('/update/:id_user', 'UsersController.editUser')
-  }).prefix('/user')
+    Route.group(() => {
+      Route.get('/getUsers', 'UsersController.getAllStudents')
+      Route.get('/getUser/:id_user', 'UsersController.getUserById')
+      Route.post('/create', 'UsersController.registerStudent')
+      Route.post('/update/:id_user', 'UsersController.editUser')
+    }).prefix('/user')
 
-  Route.group(() => {
-    Route.get('/getQuestions', 'QuestionsController.getQuestions')
-    Route.post('/create', 'QuestionsController.register')
-    Route.put('/editQuestion/:id_question', 'QuestionsController.editById')
-    Route.delete('/deleteQuestion/:id_question', 'QuestionsController.deleteById')
-  }).prefix('/questions')
+    Route.group(() => {
+      Route.get('/getQuestions', 'QuestionsController.getQuestions')
+      Route.post('/create', 'QuestionsController.register')
+      Route.put('/editQuestion/:id_question', 'QuestionsController.editById')
+      Route.delete('/deleteQuestion/:id_question', 'QuestionsController.deleteById')
 
-  Route.group(() => {
-    Route.get('/getRoles', 'RolesController.getAll')
-    Route.post('/create', 'RolesController.register')
-  }).prefix('/role')
+      Route.get('/getAnswers/:id_question', 'AnswersController.getAnswersByIdQuestion')
+      Route.post('/updateAnswer/:id_opcion', 'AnswersController.editById')
+    }).prefix('/questions')
 
-  Route.group(() => {
-    Route.get('/getTypes', 'TypesDocumentsController.getAll')
-    Route.post('/create', 'TypesDocumentsController.register')
-  }).prefix('/type_document')
+    Route.group(() => {
+      Route.get('/getQuestions', 'FormsController.getAllQuestions')
+    }).prefix('/form')
+
+    Route.group(() => {
+      Route.get('/getRoles', 'RolesController.getAll')
+      Route.post('/create', 'RolesController.register')
+    }).prefix('/role')
+
+    Route.group(() => {
+      Route.get('/getTypes', 'TypesDocumentsController.getAll')
+      Route.post('/create', 'TypesDocumentsController.register')
+    }).prefix('/type_document')
+  }) // Middleware base auth
 }).prefix('/api/v1')

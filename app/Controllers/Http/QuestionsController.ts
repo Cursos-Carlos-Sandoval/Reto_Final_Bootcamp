@@ -8,19 +8,11 @@ export default class QuestionsController {
     const trx = await Database.transaction()
     try {
       const data = request.all()
-      const question = await Question.create(data?.question)
+      await Question.create(data?.question)
 
       // Create answers per question
       const options = data?.options
-      options.forEach(async (obj: any) => {
-        const properties = {
-          answer: obj.opcion,
-          is_correct: obj.iscorrect,
-          question_id: question.id,
-        }
-
-        await Answer.create(properties)
-      })
+      await Answer.createMany(options)
 
       await trx.commit()
       response.status(200).send({ state: true, message: 'Pregunta creada exitosamente' })
@@ -44,7 +36,7 @@ export default class QuestionsController {
     const trx = await Database.transaction()
     try {
       await Question.query()
-        .where('id', request.input('id_question'))
+        .where('id', request.param('id_question'))
         .update({
           question: request.input('question'),
         })
@@ -61,7 +53,7 @@ export default class QuestionsController {
   public async deleteById({ request, response }: HttpContextContract) {
     const trx = await Database.transaction()
     try {
-      const question = await Question.findOrFail(request.input('id_question'))
+      const question = await Question.findOrFail(request.param('id_question'))
       question.state = false
       await question.save()
       await trx.commit()

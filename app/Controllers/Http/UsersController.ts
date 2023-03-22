@@ -158,7 +158,7 @@ export default class UsersController {
     const trx = await Database.transaction()
     try {
       await User.query()
-        .where('id', request.input('id_user'))
+        .where('id', request.param('id_user'))
         .update({
           first_name: request.input('firstName'),
           second_name: request.input('secondName'),
@@ -181,7 +181,7 @@ export default class UsersController {
   public async getUserById({ request, response }: HttpContextContract) {
     try {
       const user = await User.query()
-        .where('id', request.input('id_user'))
+        .where('id', request.param('id_user'))
         .andWhere('state', true)
         .first()
       response.status(200).json({ state: true, user: user })
