@@ -97,9 +97,11 @@ export default class UsersController {
         )
         .paginate(params?.page ?? 1, params?.perPage ?? 10)
 
-      response
-        .status(200)
-        .json({ state: true, message: 'Listado de estudiantes', users: [students] })
+      response.status(200).json({
+        state: true,
+        message: 'Listado de estudiantes',
+        users: students.toJSON()?.data ?? [],
+      })
     } catch (error) {
       console.error(error)
       response.status(400).json({ state: false, message: 'Fallo en el listado de estudiantes' })
