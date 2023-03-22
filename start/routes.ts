@@ -31,6 +31,13 @@ Route.group(() => {
   }).prefix('/user')
 
   Route.group(() => {
+    Route.get('/getQuestions', 'QuestionsController.getQuestions')
+    Route.post('/create', 'QuestionsController.register')
+    Route.put('/editQuestion/:id_question', 'QuestionsController.editById')
+    Route.delete('/deleteQuestion/:id_question', 'QuestionsController.deleteById')
+  }).prefix('/questions')
+
+  Route.group(() => {
     Route.get('/getRoles', 'RolesController.getAll')
     Route.post('/create', 'RolesController.register')
   }).prefix('/role')

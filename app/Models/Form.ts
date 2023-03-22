@@ -6,9 +6,13 @@ import Answer from './Answer'
 export default class Form extends BaseModel {
   @column({ isPrimary: true })
   public id: number
-  @hasOne(() => User)
+  @hasOne(() => User, {
+    foreignKey: 'student_id',
+  })
   public student_id: HasOne<typeof User>
-  @hasOne(() => Answer)
+  @hasOne(() => Answer, {
+    foreignKey: 'answer_id',
+  })
   public answer_id: HasOne<typeof Answer>
   @column()
   public state: boolean

@@ -9,7 +9,9 @@ export default class Answer extends BaseModel {
   public answer: string
   @column()
   public is_correct: boolean
-  @hasOne(() => Question)
+  @hasOne(() => Question, {
+    foreignKey: 'question_id',
+  })
   public question_id: HasOne<typeof Question>
   @column()
   public state: boolean
