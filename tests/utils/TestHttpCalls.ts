@@ -1,6 +1,5 @@
 import axios from 'axios'
 import Env from '@ioc:Adonis/Core/Env'
-import UsersController from '../../app/Controllers/Http/UsersController'
 
 export default class TestHttpCalls {
   private static readonly API_BASE = 'api/v1'
