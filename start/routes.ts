@@ -29,31 +29,42 @@ Route.group(() => {
       Route.get('/getUser/:id_user', 'UsersController.getUserById')
       Route.post('/create', 'UsersController.registerStudent')
       Route.post('/update/:id_user', 'UsersController.editUser')
-    }).prefix('/user')
+    })
+      .prefix('/user')
+      .middleware('admin')
 
     Route.group(() => {
       Route.get('/getQuestions', 'QuestionsController.getQuestions')
-      Route.post('/create', 'QuestionsController.register')
-      Route.put('/editQuestion/:id_question', 'QuestionsController.editById')
-      Route.delete('/deleteQuestion/:id_question', 'QuestionsController.deleteById')
 
-      Route.get('/getAnswers/:id_question', 'AnswersController.getAnswersByIdQuestion')
-      Route.post('/updateAnswer/:id_opcion', 'AnswersController.editById')
+      Route.group(() => {
+        Route.post('/create', 'QuestionsController.register')
+        Route.put('/editQuestion/:id_question', 'QuestionsController.editById')
+        Route.delete('/deleteQuestion/:id_question', 'QuestionsController.deleteById')
+
+        Route.get('/getAnswers/:id_question', 'AnswersController.getAnswersByIdQuestion')
+        Route.post('/updateAnswer/:id_opcion', 'AnswersController.editById')
+      }).middleware('admin')
     }).prefix('/questions')
 
     Route.group(() => {
       Route.get('/getQuestions', 'FormsController.getAllQuestions')
       Route.post('/postQuestions', 'FormsController.saveQuestions')
-    }).prefix('/form')
+    })
+      .prefix('/form')
+      .middleware('admin')
 
     Route.group(() => {
       Route.get('/getRoles', 'RolesController.getAll')
       Route.post('/create', 'RolesController.register')
-    }).prefix('/role')
+    })
+      .prefix('/role')
+      .middleware('admin')
 
     Route.group(() => {
       Route.get('/getTypes', 'TypesDocumentsController.getAll')
       Route.post('/create', 'TypesDocumentsController.register')
-    }).prefix('/type_document')
-  }) // Middleware base auth
+    })
+      .prefix('/type_document')
+      .middleware('admin')
+  }).middleware('auth')
 }).prefix('/api/v1')
