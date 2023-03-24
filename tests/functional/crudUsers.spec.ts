@@ -148,7 +148,7 @@ test.group('Crud Users', async (group) => {
     }
 
     try {
-      const response = await TestHttpCalls.getUserById(userId, studentToken)
+      const response = await TestHttpCalls.getUserById(userId, adminToken)
       assert.strictEqual(response.status, 200)
     } catch (error) {
       assert.fail()
