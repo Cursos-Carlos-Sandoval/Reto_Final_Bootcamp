@@ -150,7 +150,7 @@ export default class UsersController {
       })
     } catch (error) {
       console.error(error)
-      response.json({ state: false, message: 'contraseña o email invalido ' })
+      response.status(400).json({ state: false, message: 'contraseña o email invalido' })
     }
   }
 

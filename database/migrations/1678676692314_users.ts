@@ -1,4 +1,5 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
+import bcryptjs from 'bcryptjs'
 
 export default class extends BaseSchema {
   protected tableName = 'users'
@@ -25,6 +26,23 @@ export default class extends BaseSchema {
     this.schema.alterTable('users', (table) => {
       table.foreign('type_document').references('types_documents.id')
       table.foreign('rol_id').references('roles.id')
+    })
+
+    this.defer(async () => {
+      await this.db.table(this.tableName).insert([
+        {
+          first_name: 'Admin',
+          second_name: 'Admin',
+          surname: 'Admin',
+          second_sur_name: 'Admin',
+          type_document: 1,
+          document_number: 123456789,
+          email: 'admin@example.com',
+          password: bcryptjs.hashSync('123456', bcryptjs.genSaltSync()),
+          rol_id: 1,
+          phone: '123456789',
+        },
+      ])
     })
   }
 
