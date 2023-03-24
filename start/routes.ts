@@ -28,7 +28,8 @@ Route.group(() => {
       Route.get('/getUsers', 'UsersController.getAllStudents')
       Route.get('/getUser/:id_user', 'UsersController.getUserById')
       Route.post('/create', 'UsersController.registerStudent')
-      Route.post('/update/:id_user', 'UsersController.editUser')
+      Route.put('/update/:id_user', 'UsersController.editUser')
+      Route.delete('/delete/:id_user', 'UsersController.deleteUser')
     })
       .prefix('/user')
       .middleware('admin')
@@ -42,7 +43,7 @@ Route.group(() => {
         Route.delete('/deleteQuestion/:id_question', 'QuestionsController.deleteById')
 
         Route.get('/getAnswers/:id_question', 'AnswersController.getAnswersByIdQuestion')
-        Route.post('/updateAnswer/:id_opcion', 'AnswersController.editById')
+        Route.put('/updateAnswer/:id_opcion', 'AnswersController.editById')
       }).middleware('admin')
     }).prefix('/questions')
 

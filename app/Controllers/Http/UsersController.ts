@@ -45,8 +45,8 @@ export default class UsersController {
     }
   }
 
-  private static async getUserByEmail(email: string): Promise<User | null> {
-    return await User.findBy('email', email)
+  public static async getUserByEmail(email: string): Promise<User | null> {
+    return await User.findByOrFail('email', email)
   }
 
   private static isValidPassword(password: string, user: User | null): boolean {
@@ -175,6 +175,20 @@ export default class UsersController {
     } catch (error) {
       await trx.rollback()
       response.status(400).json({ state: false, message: 'Error al actualizar' })
+    }
+  }
+
+  public async deleteUser({ request, response }: HttpContextContract) {
+    const trx = await Database.transaction()
+    try {
+      const user = await User.findByOrFail('id', request.param('id_user'))
+      user.state = false
+      await user.save()
+      await trx.commit()
+      response.status(200).json({ state: true, message: 'Se elimino el estudiante correctamente' })
+    } catch (error) {
+      console.error(error)
+      trx.rollback()
     }
   }
 

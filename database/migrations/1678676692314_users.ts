@@ -42,6 +42,18 @@ export default class extends BaseSchema {
           rol_id: 1,
           phone: '123456789',
         },
+        {
+          first_name: 'Test',
+          second_name: 'User',
+          surname: 'Test',
+          second_sur_name: 'User',
+          type_document: 1,
+          document_number: 100000000,
+          email: 'test@test.com',
+          password: bcryptjs.hashSync('testExecute', bcryptjs.genSaltSync()),
+          rol_id: 2,
+          phone: '100000000',
+        },
       ])
     })
   }
