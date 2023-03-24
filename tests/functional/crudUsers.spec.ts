@@ -117,6 +117,44 @@ test.group('Crud Users', async (group) => {
     }
   })
 
+  test('Get user by id - Invalid credentials', async ({ assert }) => {
+    let userId: number = 0
+    try {
+      const userResponse = await TestHttpCalls.getBodyFromEmail('test@test.com', adminToken)
+      userId = userResponse.data['id']
+      assert.isNotNull(userId)
+      assert.notStrictEqual(userId, 0)
+    } catch (error) {
+      assert.fail()
+    }
+
+    try {
+      await TestHttpCalls.getUserById(userId, studentToken)
+      assert.fail()
+    } catch (error) {
+      assert.isTrue(true)
+    }
+  })
+
+  test('Get user by id - Valid credentials', async ({ assert }) => {
+    let userId: number = 0
+    try {
+      const userResponse = await TestHttpCalls.getBodyFromEmail('test@test.com', adminToken)
+      userId = userResponse.data['id']
+      assert.isNotNull(userId)
+      assert.notStrictEqual(userId, 0)
+    } catch (error) {
+      assert.fail()
+    }
+
+    try {
+      const response = await TestHttpCalls.getUserById(userId, studentToken)
+      assert.strictEqual(response.status, 200)
+    } catch (error) {
+      assert.fail()
+    }
+  })
+
   test('Delete user - Invalid credentials', async ({ assert }) => {
     let userId: number = 0
     // Get data
