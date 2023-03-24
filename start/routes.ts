@@ -27,6 +27,7 @@ Route.group(() => {
     Route.group(() => {
       Route.get('/getUsers', 'UsersController.getAllStudents')
       Route.get('/getUser/:id_user', 'UsersController.getUserById')
+      Route.get('/getByMail/:email', 'UsersController.getByMail')
       Route.post('/create', 'UsersController.registerStudent')
       Route.put('/update/:id_user', 'UsersController.editUser')
       Route.delete('/delete/:id_user', 'UsersController.deleteUser')

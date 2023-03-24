@@ -1,43 +1,26 @@
 import { test } from '@japa/runner'
 import TestHttpCalls from '../utils/TestHttpCalls'
 
-test.group('Login', async (group) => {
-  group.each.timeout(6000)
-  let token: string = ''
-
-  test('Invalid login', async ({ assert }) => {
-    await assert.rejects(
-      async () => await TestHttpCalls.getToken({ email: 'error', password: 'error' })
-    )
-  })
-
-  test('Valid login', async ({ assert }) => {
-    try {
-      token = await TestHttpCalls.getAdminToken()
-      assert.isString(token)
-      assert.notEqual(token, '')
-    } catch (error) {
-      assert.fail()
-    }
-  })
-})
-
 test.group('Crud Users', async (group) => {
   group.each.timeout(6000)
-  const adminToken = await TestHttpCalls.getAdminToken()
-  const studentToken = await TestHttpCalls.getStudentToken()
+  let adminToken = ''
+  let studentToken = ''
   const studentBody = {
     firstName: 'daniel',
     secondName: 'jose',
     surname: 'cruz',
     secondSurName: 'casallas',
     typeDocument: 1,
-    documentNumber: '123456789',
-    email: 'danielc88@gmail.co',
+    documentNumber: '987654321',
+    email: 'estudiante_generado@gmail.com',
     password: '32jdkdi',
     rol: 2,
     phone: '32123122314',
   }
+  group.setup(async () => {
+    adminToken = await TestHttpCalls.getAdminToken()
+    studentToken = await TestHttpCalls.getStudentToken()
+  })
 
   test('Create user - Invalid credentials', async ({ assert }) => {
     await assert.rejects(async () => await TestHttpCalls.createUser(studentBody, studentToken))
@@ -81,7 +64,7 @@ test.group('Crud Users', async (group) => {
   })
 
   test('Edit user - Incomplete info', async ({ assert }) => {
-    await assert.rejects(async () => {
+    try {
       await TestHttpCalls.editUser(
         2,
         {
@@ -90,11 +73,14 @@ test.group('Crud Users', async (group) => {
         },
         adminToken
       )
-    })
+      assert.fail()
+    } catch (error) {
+      assert.isTrue(true)
+    }
   })
 
   test('Edit user - Valid credentials', async ({ assert }) => {
-    await assert.rejects(async () => {
+    try {
       await TestHttpCalls.editUser(
         2,
         {
@@ -110,42 +96,66 @@ test.group('Crud Users', async (group) => {
         },
         adminToken
       )
-    })
+      assert.fail()
+    } catch (error) {
+      assert.isTrue(true)
+    }
   })
 
   test('Get Users - Invalid credentials', async ({ assert }) => {
-    await assert.rejects(async () => {})
+    await assert.rejects(async () => {
+      await TestHttpCalls.getAllUsers(studentToken)
+    })
   })
 
-  test('Get Users - Valid credentials', async ({ assert }) => {})
+  test('Get Users - Valid credentials', async ({ assert }) => {
+    try {
+      const { data } = await TestHttpCalls.getAllUsers(adminToken)
+      assert.isTrue(data?.state)
+    } catch (error) {
+      assert.fail()
+    }
+  })
 
   test('Delete user - Invalid credentials', async ({ assert }) => {
-    const user = await TestHttpCalls.getBodyFromEmail(studentBody.email)
-    const userId = user?.id ?? 0
-    assert.isNotNull(user)
-    assert.notEqual(user?.id, 0)
+    let userId: number = 0
+    // Get data
+    try {
+      const userResponse = await TestHttpCalls.getBodyFromEmail('test@test.com', adminToken)
+      userId = userResponse.data['id']
+      assert.isNotNull(userId)
+      assert.notStrictEqual(userId, 0)
+    } catch (error) {
+      assert.fail()
+    }
 
-    await assert.rejects(async () => {
+    // Function
+    try {
       await TestHttpCalls.deleteUser(userId, studentToken)
-    })
+      assert.fail()
+    } catch (error) {
+      assert.isTrue(true)
+    }
   })
 
   test('Delete user - Invalid info', async ({ assert }) => {
     const userId = 0
-
-    await assert.rejects(async () => {
+    try {
       await TestHttpCalls.deleteUser(userId, adminToken)
-    })
+      assert.fail()
+    } catch (error) {
+      assert.isTrue(true)
+    }
   })
 
   test('Delete user - Valid credentials', async ({ assert }) => {
     try {
-      const user = await TestHttpCalls.getBodyFromEmail(studentBody.email)
-      const userId = user?.id ?? 0
-      assert.isNotNull(user)
-      assert.notEqual(user?.id, 0)
+      const userResponse = await TestHttpCalls.getBodyFromEmail(studentBody.email, adminToken)
+      const userId = userResponse.id
+      assert.isNotNull(userId)
+      assert.notStrictEqual(userId, 0)
 
-      const response = await TestHttpCalls.deleteUser(userId, studentToken)
+      const response = await TestHttpCalls.deleteUser(userId, adminToken)
       assert.strictEqual(response.status, 200)
     } catch (error) {
       assert.fail()

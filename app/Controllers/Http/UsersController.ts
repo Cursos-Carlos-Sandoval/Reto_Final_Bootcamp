@@ -45,8 +45,8 @@ export default class UsersController {
     }
   }
 
-  public static async getUserByEmail(email: string): Promise<User | null> {
-    return await User.findByOrFail('email', email)
+  private static async getUserByEmail(email: string): Promise<User | null> {
+    return await User.findBy('email', email)
   }
 
   private static isValidPassword(password: string, user: User | null): boolean {
@@ -203,6 +203,36 @@ export default class UsersController {
       response
         .status(400)
         .json({ state: false, message: 'Error al consultar el detalle del usuario' })
+    }
+  }
+
+  public async getByMail({ request, response }: HttpContextContract) {
+    try {
+      const email = request.param('email')
+      const user = await UsersController.getUserByEmail(email)
+      response.status(200).json({
+        state: true,
+        message: 'Usuario indicado',
+        data: {
+          id: user?.id,
+          firstName: user?.first_name,
+          secondName: user?.second_name,
+          surname: user?.surname,
+          secondSurName: user?.second_sur_name,
+          typeDocument: user?.type_document,
+          documentNumber: user?.document_number,
+          email: user?.email,
+          rol: user?.rol_id,
+          phone: user?.phone,
+          state: user?.state,
+        },
+      })
+    } catch (error) {
+      console.error(error)
+      response.status(400).json({
+        state: false,
+        message: 'Error al obtener el usuario',
+      })
     }
   }
 }
