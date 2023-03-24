@@ -74,7 +74,7 @@ export default class UsersController {
     })
   }
 
-  public static getTokenPayload(authorizationHeader: string): JwtPayload | string {
+  public static getTokenPayload(authorizationHeader: string): JwtPayload | any {
     const token = UsersController.getTokenFromHeader(authorizationHeader)
     return jwt.verify(token, Env.get('JWT_PRIVATE_KEY'), { complete: true }).payload
   }
