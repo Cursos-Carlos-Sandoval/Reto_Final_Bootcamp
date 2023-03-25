@@ -7,12 +7,22 @@ export default class QuestionsController {
   public async register({ request, response }: HttpContextContract) {
     const trx = await Database.transaction()
     try {
-      const data = request.all()
-      await Question.create(data?.question)
+      const data = request.input('question')
+      const question = await Question.create({
+        question: data,
+      })
 
       // Create answers per question
-      const options = data?.options
-      await Answer.createMany(options)
+      const options = request.input('options')
+      const parsedOptions = options.map(({ answer, is_correct }) => {
+        return {
+          answer: answer,
+          is_correct: is_correct,
+          question_id: question.id,
+        }
+      })
+
+      await Answer.createMany(parsedOptions)
 
       await trx.commit()
       response.status(200).send({ state: true, message: 'Pregunta creada exitosamente' })
@@ -26,7 +36,9 @@ export default class QuestionsController {
   public async getQuestions({ response }: HttpContextContract) {
     try {
       const question = await Question.query().where('state', true).select('id', 'question')
-      response.status(200).send({ state: true, questions: question ?? [] })
+      response
+        .status(200)
+        .send({ state: true, message: 'Listado de preguntas', questions: question ?? [] })
     } catch (error) {
       response.status(400).send({ state: false, message: 'Error al listar las preguntas' })
     }

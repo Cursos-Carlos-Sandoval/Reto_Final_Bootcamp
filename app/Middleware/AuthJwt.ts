@@ -8,7 +8,7 @@ export default class AuthJwt {
     if (authorizationHeader === undefined) {
       return ctx.response.status(404).send({
         state: false,
-        message: 'Not found',
+        message: 'Sitio no encontrado',
       })
     }
 
