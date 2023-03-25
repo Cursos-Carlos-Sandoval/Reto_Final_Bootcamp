@@ -1,18 +1,18 @@
-/api/v1/user/delete/{id_user}:
+/api/v1/questions/deleteQuestion/{id_question}:
   delete:
     tags:
-      - User
+      - Question
     security:
       - bearerAuth: []
     parameters:
       - in: path
-        name: id_user
+        name: id_question
         schema:
           type: integer
           minimum: 1
         required: true
-        description: Id del usuario a eliminar
-    description: Eliminar un usuario existente
+        description: Id de la pregunta que se requiere eliminar
+    description: Eliminar una pregunta existente
     responses:
       200:
         description: Petición exitosa
@@ -20,14 +20,14 @@
           application/json:
             schema:
               $ref: '#/definitions/genericResponse'
-            example: { 'state': true, 'message': 'Se elimino el estudiante correctamente' }
+            example: { 'state': true, 'message': 'Pregunta eliminada con éxito' }
       400:
-        description: Petición fallida.Puede faltar información, estar mal referenciada o que el id no este relacionado con un usuario existente
+        description: Petición fallida.Puede faltar información, estar mal referenciada o que el id no este relacionado con una pregunta existente
         content:
           application/json:
             schema:
               $ref: '#/definitions/genericBadResponse'
-            example: { 'state': false, 'message': 'Ocurrió un fallo al eliminar el estudiante' }
+            example: { 'state': false, 'message': 'Error al eliminar la pregunta' }
       404:
         description: Petición fallida - La ruta no existe, el usuario no tiene los permisos o el token es invalido
         content:
