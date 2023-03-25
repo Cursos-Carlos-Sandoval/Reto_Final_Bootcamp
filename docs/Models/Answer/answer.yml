@@ -15,3 +15,10 @@ definitions:
               type: number
             answer:
               type: string
+  editAnswerBody:
+    type: object
+    properties:
+      answer:
+        type: string
+      is_correct:
+        type: boolean

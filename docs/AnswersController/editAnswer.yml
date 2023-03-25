@@ -1,0 +1,43 @@
+/api/v1/questions/updateAnswer/{id_answer}:
+  put:
+    tags:
+      - Answer
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id_answer
+        schema:
+          type: integer
+          minimum: 1
+        required: true
+        description: Id de la respuesta que se requiere editar
+    description: Editar una respuesta existente
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/definitions/editAnswerBody'
+          example: { 'answer': 'nueva respuesta', 'is_correct': true }
+    responses:
+      200:
+        description: Petición exitosa
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericResponse'
+            example: { 'state': true, 'message': 'Respuesta editada con éxito' }
+      400:
+        description: Petición fallida.Puede faltar información, estar mal referenciada o que el id no este relacionado con una respuesta existente
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericBadResponse'
+            example: { 'state': false, 'message': 'Error al editar la respuesta' }
+      404:
+        description: Petición fallida - La ruta no existe, el usuario no tiene los permisos o el token es invalido
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericBadResponse'
+            example: { 'state': false, 'message': 'Sitio no encontrado' }

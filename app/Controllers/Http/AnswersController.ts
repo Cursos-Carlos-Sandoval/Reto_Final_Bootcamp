@@ -13,9 +13,10 @@ export default class AnswersController {
           answer: request.input('answer'),
           is_correct: request.input('is_correct'),
         })
+        .firstOrFail()
 
       await trx.commit()
-      response.status(200).send({ state: true, message: 'Opción editada con éxito' })
+      response.status(200).send({ state: true, message: 'Respuesta editada con éxito' })
     } catch (error) {
       await trx.rollback()
       console.error(error)
