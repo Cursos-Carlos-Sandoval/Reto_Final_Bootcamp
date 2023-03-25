@@ -130,7 +130,7 @@ test.group('Crud Users', async (group) => {
     let userId: number = 0
     try {
       const userResponse = await TestHttpCalls.getBodyFromEmail('test@test.com', adminToken)
-      userId = userResponse.data['id']
+      userId = userResponse.user['id']
       assert.isNotNull(userId)
       assert.notStrictEqual(userId, 0)
     } catch (error) {
@@ -149,7 +149,7 @@ test.group('Crud Users', async (group) => {
     let userId: number = 0
     try {
       const userResponse = await TestHttpCalls.getBodyFromEmail('test@test.com', adminToken)
-      userId = userResponse.data['id']
+      userId = userResponse.user['id']
       assert.isNotNull(userId)
       assert.notStrictEqual(userId, 0)
     } catch (error) {
@@ -169,7 +169,7 @@ test.group('Crud Users', async (group) => {
     // Get data
     try {
       const userResponse = await TestHttpCalls.getBodyFromEmail('admin@example.com', adminToken)
-      userId = userResponse.data['id']
+      userId = userResponse.user['id']
       assert.isNotNull(userId)
       assert.notStrictEqual(userId, 0)
     } catch (error) {
@@ -199,7 +199,7 @@ test.group('Crud Users', async (group) => {
   test('Delete user - Valid credentials', async ({ assert }) => {
     try {
       const userResponse = await TestHttpCalls.getBodyFromEmail('test@test.com', adminToken)
-      const userId = userResponse.data['id']
+      const userId = userResponse.user['id']
       assert.isNotNull(userId)
       assert.notStrictEqual(userId, 0)
 
