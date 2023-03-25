@@ -1,0 +1,37 @@
+/api/v1/user/delete/{id_user}:
+  delete:
+    tags:
+      - User
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id_user
+        schema:
+          type: integer
+          minimum: 1
+        required: true
+        description: Id del usuario a eliminar
+    description: Eliminar un usuario existente
+    responses:
+      200:
+        description: Petición exitosa
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericResponse'
+            example: { 'state': true, 'message': 'Se elimino el estudiante correctamente' }
+      400:
+        description: Petición fallida.Puede faltar información, estar mal referenciada o que el id no este relacionado con un usuario existe
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericBadResponse'
+            example: { 'state': false, 'message': 'Ocurrió un fallo al eliminar el estudiante' }
+      404:
+        description: Petición fallida - La ruta no existe o el token es invalido
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericBadResponse'
+            example: { 'state': false, 'message': 'Not found' }
