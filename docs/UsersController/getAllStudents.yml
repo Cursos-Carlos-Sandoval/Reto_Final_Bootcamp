@@ -66,4 +66,4 @@
           application/json:
             schema:
               $ref: '#/definitions/genericBadResponse'
-            example: { 'state': false, 'message': 'Not found' }
+            example: { 'state': false, 'message': 'Sitio no encontrado' }

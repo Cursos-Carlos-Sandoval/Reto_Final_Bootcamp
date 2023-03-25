@@ -1,14 +1,31 @@
 definitions:
-  Question:
+  getAllQuestionsResponse:
     type: object
     properties:
-      id:
-        type: number
-      question:
-        type: string
       state:
         type: boolean
-      createdAt:
+      message:
         type: string
-      updatedAt:
+      questions:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: number
+            question:
+              type: string
+  createQuestionBody:
+    type: object
+    properties:
+      question:
         type: string
+      options:
+        type: array
+        items:
+          type: object
+          properties:
+            answer:
+              type: string
+            is_correct:
+              type: boolean

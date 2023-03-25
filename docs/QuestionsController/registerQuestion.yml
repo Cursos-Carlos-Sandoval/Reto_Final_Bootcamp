@@ -1,27 +1,25 @@
-/api/v1/user/create:
+/api/v1/questions/create:
   post:
     tags:
-      - User
+      - Question
     security:
       - bearerAuth: []
-    description: Crea un nuevo usuario
+    description: Crea una nueva pregunta
     requestBody:
       content:
         application/json:
           schema:
-            $ref: '#/definitions/createStudentBody'
+            $ref: '#/definitions/createQuestionBody'
           example:
             {
-              'first_name': 'daniel',
-              'second_name': 'jose',
-              'surname': 'cruz',
-              'second_sur_name': 'casallas',
-              'type_document': 1,
-              'document_number': '120112014',
-              'email': 'estudiante_ejemplo@gmail.com',
-              'password': '32jdkdi',
-              'rol_id': 2,
-              'phone': '32123122314',
+              'question': '¿que dia es hoy?',
+              'options':
+                [
+                  { 'answer': 'esta es correcta', 'is_correct': true },
+                  { 'answer': 'incorrecta', 'is_correct': false },
+                  { 'answer': 'incorrecta', 'is_correct': false },
+                  { 'answer': 'incorrecta', 'is_correct': false },
+                ],
             }
     responses:
       200:
@@ -30,14 +28,14 @@
           application/json:
             schema:
               $ref: '#/definitions/genericResponse'
-            example: { 'state': true, 'message': 'Estudiante creado correctamente' }
+            example: { 'state': true, 'message': 'Pregunta creado correctamente' }
       400:
-        description: Petición fallida.Puede faltar información, estar mal referenciada o que el usuario ya exista
+        description: Petición fallida.Puede faltar información o estar mal referenciada
         content:
           application/json:
             schema:
               $ref: '#/definitions/genericBadResponse'
-            example: { 'state': false, 'message': 'Error al consultar el detalle del usuario' }
+            example: { 'state': false, 'message': 'Error al intentar crear la pregunta' }
       404:
         description: Petición fallida - La ruta no existe, el usuario no tiene los permisos o el token es invalido
         content:

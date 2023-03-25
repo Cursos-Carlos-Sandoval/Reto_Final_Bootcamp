@@ -1,0 +1,34 @@
+/api/v1/questions/getQuestions:
+  get:
+    tags:
+      - Question
+    security:
+      - bearerAuth: []
+    description: Listar todas las preguntas
+    responses:
+      200:
+        description: Petición exitosa
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/getAllQuestionsResponse'
+            example:
+              {
+                'state': true,
+                'message': 'Listado de preguntas',
+                'questions': [{ 'id': 1, 'question': 'test1' }, { 'id': 2, 'question': 'test2' }],
+              }
+      400:
+        description: Petición fallida - Los parámetros no son validos
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericBadResponse'
+            example: { 'state': false, 'message': 'Error al listar las preguntas' }
+      404:
+        description: Petición fallida - La ruta no existe, el usuario no tiene los permisos o el token es invalido
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericBadResponse'
+            example: { 'state': false, 'message': 'Sitio no encontrado' }
