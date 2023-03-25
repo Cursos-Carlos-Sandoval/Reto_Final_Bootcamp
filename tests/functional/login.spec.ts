@@ -26,4 +26,22 @@ test.group('Login', async (group) => {
       assert.fail()
     }
   })
+
+  test('Petition without headers', async ({ assert }) => {
+    try {
+      await TestHttpCalls.petitionWithoutHeaders()
+      assert.fail()
+    } catch (error) {
+      assert.isTrue(true)
+    }
+  })
+
+  test('Petition with bad tokens', async ({ assert }) => {
+    try {
+      await TestHttpCalls.getAllUsers('INVALID TOKEN')
+      assert.fail()
+    } catch (error) {
+      assert.isTrue(true)
+    }
+  })
 })

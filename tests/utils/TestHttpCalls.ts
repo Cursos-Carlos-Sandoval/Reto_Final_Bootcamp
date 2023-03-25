@@ -96,4 +96,11 @@ export default class TestHttpCalls {
 
     return axiosResponse
   }
+
+  public static async petitionWithoutHeaders() {
+    const endpoint = `${TestHttpCalls.API_BASE}/user/getUsers`
+    const axiosResponse = await axios.get(`${Env.get('PATH_APP') + endpoint}`)
+
+    return axiosResponse
+  }
 }
