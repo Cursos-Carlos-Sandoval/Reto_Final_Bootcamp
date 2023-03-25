@@ -1,0 +1,18 @@
+definitions:
+  Answer:
+    type: object
+    properties:
+      id:
+        type: number
+      answer:
+        type: string
+      is_correct:
+        type: boolean
+      question_id:
+        type: number
+      state:
+        type: boolean
+      createdAt:
+        type: string
+      updatedAt:
+        type: string

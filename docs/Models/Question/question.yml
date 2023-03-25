@@ -1,0 +1,14 @@
+definitions:
+  Question:
+    type: object
+    properties:
+      id:
+        type: number
+      question:
+        type: string
+      state:
+        type: boolean
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
