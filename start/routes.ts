@@ -57,14 +57,12 @@ Route.group(() => {
 
     Route.group(() => {
       Route.get('/getRoles', 'RolesController.getAll')
-      Route.post('/create', 'RolesController.register')
     })
       .prefix('/role')
       .middleware('admin')
 
     Route.group(() => {
       Route.get('/getTypes', 'TypesDocumentsController.getAll')
-      Route.post('/create', 'TypesDocumentsController.register')
     })
       .prefix('/type_document')
       .middleware('admin')
