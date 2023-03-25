@@ -5,9 +5,15 @@ test.group('Login', async (group) => {
   group.each.timeout(6000)
   let token: string = ''
 
-  test('Invalid login', async ({ assert }) => {
+  test('Invalid login - Invalid password', async ({ assert }) => {
     await assert.rejects(
-      async () => await TestHttpCalls.getToken({ email: 'error', password: 'error' })
+      async () => await TestHttpCalls.getToken({ email: 'admin@example.com', password: 'error' })
+    )
+  })
+
+  test('Invalid login - Invalid email', async ({ assert }) => {
+    await assert.rejects(
+      async () => await TestHttpCalls.getToken({ email: 'error', password: '123456' })
     )
   })
 

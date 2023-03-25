@@ -79,6 +79,15 @@ test.group('Crud Users', async (group) => {
     }
   })
 
+  test('Edit user - Invalid info', async ({ assert }) => {
+    try {
+      await TestHttpCalls.editUser(-Number.POSITIVE_INFINITY, {}, adminToken)
+      assert.fail()
+    } catch (error) {
+      assert.isTrue(true)
+    }
+  })
+
   test('Edit user - Valid credentials', async ({ assert }) => {
     try {
       await TestHttpCalls.editUser(
@@ -159,7 +168,7 @@ test.group('Crud Users', async (group) => {
     let userId: number = 0
     // Get data
     try {
-      const userResponse = await TestHttpCalls.getBodyFromEmail('test@test.com', adminToken)
+      const userResponse = await TestHttpCalls.getBodyFromEmail('admin@example.com', adminToken)
       userId = userResponse.data['id']
       assert.isNotNull(userId)
       assert.notStrictEqual(userId, 0)
@@ -172,7 +181,8 @@ test.group('Crud Users', async (group) => {
       await TestHttpCalls.deleteUser(userId, studentToken)
       assert.fail()
     } catch (error) {
-      assert.isTrue(true)
+      const user = await TestHttpCalls.getUserById(userId, adminToken)
+      assert.isTrue(user.data['state'])
     }
   })
 
@@ -188,8 +198,8 @@ test.group('Crud Users', async (group) => {
 
   test('Delete user - Valid credentials', async ({ assert }) => {
     try {
-      const userResponse = await TestHttpCalls.getBodyFromEmail(studentBody.email, adminToken)
-      const userId = userResponse.id
+      const userResponse = await TestHttpCalls.getBodyFromEmail('test@test.com', adminToken)
+      const userId = userResponse.data['id']
       assert.isNotNull(userId)
       assert.notStrictEqual(userId, 0)
 
@@ -197,6 +207,13 @@ test.group('Crud Users', async (group) => {
       assert.strictEqual(response.status, 200)
     } catch (error) {
       assert.fail()
+    }
+
+    try {
+      await TestHttpCalls.getBodyFromEmail('test@test.com', adminToken)
+      assert.fail()
+    } catch (error) {
+      assert.isTrue(true)
     }
   })
 })

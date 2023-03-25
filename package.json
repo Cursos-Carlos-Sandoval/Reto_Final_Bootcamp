@@ -9,7 +9,7 @@
     "lint": "eslint . --ext=.ts",
     "format": "prettier --write .",
     "__cleanDb": "node ace migration:rollback && node ace migration:run",
-    "test": "npx nyc node ace test && npx nyc report --reporter=lcov"
+    "test": "pnpm run __cleanDb && npx nyc node ace test && npx nyc report --reporter=lcov"
   },
   "eslintConfig": {
     "extends": [

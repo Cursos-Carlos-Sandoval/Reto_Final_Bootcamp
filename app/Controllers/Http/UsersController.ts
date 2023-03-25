@@ -45,12 +45,17 @@ export default class UsersController {
     }
   }
 
-  private static async getUserByEmail(email: string): Promise<User | null> {
-    return await User.findBy('email', email)
+  private static async getUserByEmail(email: string): Promise<User> {
+    const data = await User.query()
+      .select('*')
+      .where('email', email)
+      .andWhere('state', true)
+      .first()
+    if (data === null) throw new Error('User not found')
+    return data
   }
 
-  private static isValidPassword(password: string, user: User | null): boolean {
-    if (user === null) return false
+  private static isValidPassword(password: string, user: User): boolean {
     return bcryptjs.compareSync(password, user.password)
   }
 
@@ -101,7 +106,7 @@ export default class UsersController {
       response.status(200).json({
         state: true,
         message: 'Listado de estudiantes',
-        users: students.toJSON()?.data ?? [],
+        users: students.toJSON()?.data,
       })
     } catch (error) {
       console.error(error)
@@ -122,36 +127,34 @@ export default class UsersController {
     const email = request.input('email')
     const password = request.input('password')
 
+    let user: User
     try {
-      const user = await UsersController.getUserByEmail(email)
-      if (!user)
-        return response.status(400).json({ state: false, message: 'contraseña o email invalido ' })
-
+      user = await UsersController.getUserByEmail(email)
       if (!UsersController.isValidPassword(password, user))
         return response.status(400).json({ state: false, message: 'contraseña o email invalido ' })
-
-      const payload = {
-        id: user.id,
-        type_document: user.type_document,
-        document_number: user.document_number,
-        rol_id: user.rol_id,
-        state: user.state,
-      }
-
-      const token: string = UsersController.createToken(payload)
-      const roleName = await Database.from('roles').select('name').where('id', user.rol_id)
-      response.status(200).json({
-        state: true,
-        id: user.id,
-        name: `${user.first_name} ${user.second_name} ${user.surname} ${user.second_sur_name}`,
-        role: `${roleName[0].name}`,
-        token: token,
-        message: 'Ingreso exitoso',
-      })
     } catch (error) {
       console.error(error)
-      response.status(400).json({ state: false, message: 'contraseña o email invalido' })
+      return response.status(400).json({ state: false, message: 'contraseña o email invalido ' })
     }
+
+    const payload = {
+      id: user.id,
+      type_document: user.type_document,
+      document_number: user.document_number,
+      rol_id: user.rol_id,
+      state: user.state,
+    }
+
+    const token: string = UsersController.createToken(payload)
+    const roleName = await Database.from('roles').select('name').where('id', user.rol_id)
+    response.status(200).json({
+      state: true,
+      id: user.id,
+      name: `${user.first_name} ${user.second_name} ${user.surname} ${user.second_sur_name}`,
+      role: `${roleName[0].name}`,
+      token: token,
+      message: 'Ingreso exitoso',
+    })
   }
 
   public async editUser({ request, response }: HttpContextContract) {
@@ -181,7 +184,7 @@ export default class UsersController {
   public async deleteUser({ request, response }: HttpContextContract) {
     const trx = await Database.transaction()
     try {
-      const user = await User.findByOrFail('id', request.param('id_user'))
+      const user = await User.findOrFail(request.param('id_user'))
       user.state = false
       await user.save()
       await trx.commit()
@@ -189,6 +192,9 @@ export default class UsersController {
     } catch (error) {
       console.error(error)
       trx.rollback()
+      response
+        .status(400)
+        .json({ state: false, message: 'Ocurrió un fallo al eliminar el estudiante' })
     }
   }
 
@@ -210,6 +216,7 @@ export default class UsersController {
     try {
       const email = request.param('email')
       const user = await UsersController.getUserByEmail(email)
+
       response.status(200).json({
         state: true,
         message: 'Usuario indicado',

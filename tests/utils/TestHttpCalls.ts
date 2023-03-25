@@ -75,8 +75,8 @@ export default class TestHttpCalls {
     return axiosResponse
   }
 
-  public static async getAllUsers(token: string) {
-    const endpoint = `${TestHttpCalls.API_BASE}/user/getUsers`
+  public static async getAllUsers(token: string, params?: string) {
+    const endpoint = `${TestHttpCalls.API_BASE}/user/getUsers${params ?? ''}`
     const axiosResponse = await axios.get(`${Env.get('PATH_APP') + endpoint}`, {
       headers: {
         Authorization: `Bearer ${token}`,
