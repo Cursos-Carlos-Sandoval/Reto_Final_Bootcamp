@@ -9,7 +9,7 @@
       content:
         application/json:
           schema:
-            $ref: '#/definitions/loginUserRequest'
+            $ref: '#/definitions/createStudentBody'
           example:
             {
               'first_name': 'daniel',
