@@ -54,17 +54,5 @@ Route.group(() => {
     })
       .prefix('/form')
       .middleware('admin')
-
-    Route.group(() => {
-      Route.get('/getRoles', 'RolesController.getAll')
-    })
-      .prefix('/role')
-      .middleware('admin')
-
-    Route.group(() => {
-      Route.get('/getTypes', 'TypesDocumentsController.getAll')
-    })
-      .prefix('/type_document')
-      .middleware('admin')
   }).middleware('auth')
 }).prefix('/api/v1')

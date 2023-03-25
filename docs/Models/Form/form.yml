@@ -1,16 +1,26 @@
 definitions:
-  Form:
+  getAllQuestionResponse:
     type: object
     properties:
-      id:
-        type: number
-      student_id:
-        type: number
-      answer_id:
-        type: number
       state:
         type: boolean
-      createdAt:
+      message:
         type: string
-      updatedAt:
-        type: string
+      questions:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: number
+            question:
+              type: string
+            options:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  answer:
+                    type: string

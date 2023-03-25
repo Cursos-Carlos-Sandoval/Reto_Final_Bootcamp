@@ -1,0 +1,58 @@
+/api/v1/form/getQuestions:
+  get:
+    tags:
+      - Forms
+    security:
+      - bearerAuth: []
+    description: Listar todos los estudiantes desde el perfil administrador
+    responses:
+      200:
+        description: Petición exitosa
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/getAllQuestionResponse'
+            example:
+              {
+                'state': true,
+                'message': 'Formulario',
+                'questions':
+                  [
+                    {
+                      'id': '1',
+                      'question': '¿que dia es hoy?',
+                      'options':
+                        [
+                          { 'id': 1, 'answer': 'lunes' },
+                          { 'id': 2, 'answer': 'martes' },
+                          { 'id': 3, 'answer': 'miércoles' },
+                          { 'id': 4, 'answer': 'jueves' },
+                        ],
+                    },
+                    {
+                      'question': '¿que hora es?',
+                      'id': '2',
+                      'options':
+                        [
+                          { 'id': 1, 'answer': '14:00' },
+                          { 'id': 2, 'answer': '20:00' },
+                          { 'id': 3, 'answer': '21:00' },
+                          { 'id': 4, 'answer': '00:00' },
+                        ],
+                    },
+                  ],
+              }
+      400:
+        description: Petición fallida - Error interno
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericBadResponse'
+            example: { 'state': false, 'message': 'Error al obtener el formulario' }
+      404:
+        description: Petición fallida - La ruta no existe, el usuario no tiene los permisos o el token es invalido
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericBadResponse'
+            example: { 'state': false, 'message': 'Sitio no encontrado' }
