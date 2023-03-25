@@ -52,7 +52,7 @@
                 'user': null,
               }
       404:
-        description: Petición fallida - La ruta no existe o el token es invalido
+        description: Petición fallida - La ruta no existe, el usuario no tiene los permisos o el token es invalido
         content:
           application/json:
             schema:
