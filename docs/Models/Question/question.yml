@@ -29,3 +29,8 @@ definitions:
               type: string
             is_correct:
               type: boolean
+  editQuestionBody:
+    type: object
+    properties:
+      question:
+        type: string

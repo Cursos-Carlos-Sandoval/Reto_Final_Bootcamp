@@ -1,0 +1,43 @@
+/api/v1/questions/editQuestion/{id_question}:
+  put:
+    tags:
+      - Question
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id_question
+        schema:
+          type: integer
+          minimum: 1
+        required: true
+        description: Id de la pregunta que se requiere editar
+    description: Editar una pregunta existente
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/definitions/editQuestionBody'
+          example: { 'question': '¿esta es una nueva pregunta?' }
+    responses:
+      200:
+        description: Petición exitosa
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericResponse'
+            example: { 'state': true, 'message': 'Se actualizo correctamente' }
+      400:
+        description: Petición fallida.Puede faltar información, estar mal referenciada o que el id no este relacionado con una pregunta existente
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericBadResponse'
+            example: { 'state': false, 'message': 'Error al editar la pregunta' }
+      404:
+        description: Petición fallida - La ruta no existe, el usuario no tiene los permisos o el token es invalido
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericBadResponse'
+            example: { 'state': false, 'message': 'Sitio no encontrado' }
