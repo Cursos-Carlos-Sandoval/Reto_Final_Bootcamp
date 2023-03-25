@@ -1,1 +1,115 @@
-{"openapi":"3.0.0","info":{"title":"Application with swagger docs","version":"1.0.0","description":"My application with swagger docs"},"paths":{"/api/v1/login":{"post":{"tags":["User"],"security":[],"description":"Realizar una petición de acceso al servidor","produces":["application/json"],"responses":{"200":{"description":"Petición exitosa","content":{"application/json":{"schema":{"type":"array","items":{"$ref":"#/definitions/User"},"example":{"state":true,"id":1,"name":"Admin Admin Admin Admin","role":"Administrador","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidHlwZV9kb2N1bWVudCI6MSwiZG9jdW1lbnRfbnVtYmVyIjoxMjM0NTY3ODksInJvbF9pZCI6MSwic3RhdGUiOnRydWUsImlhdCI6MTY3OTcxNDMzMywiZXhwIjoxNjc5NzE3OTMzfQ.orR10QJFSOIhocMCLl4PkvR5bP2tCNvpuMN7uVKS5IQ","message":"Ingreso exitoso"}}}}}}}}},"definitions":{"Answer":{"type":"object","properties":{"id":{"type":"number"},"answer":{"type":"string"},"is_correct":{"type":"boolean"},"question_id":{"type":"number"},"state":{"type":"boolean"},"createdAt":{"type":"string"},"updatedAt":{"type":"string"}}},"Form":{"type":"object","properties":{"id":{"type":"number"},"student_id":{"type":"number"},"answer_id":{"type":"number"},"state":{"type":"boolean"},"createdAt":{"type":"string"},"updatedAt":{"type":"string"}}},"Question":{"type":"object","properties":{"id":{"type":"number"},"question":{"type":"string"},"state":{"type":"boolean"},"createdAt":{"type":"string"},"updatedAt":{"type":"string"}}},"Role":{"type":"object","properties":{"id":{"type":"number"},"name":{"type":"string"},"state":{"type":"boolean"},"createdAt":{"type":"string"},"updatedAt":{"type":"string"}}},"TypesDocument":{"type":"object","properties":{"id":{"type":"number"},"name":{"type":"string"},"state":{"type":"boolean"},"createdAt":{"type":"string"},"updatedAt":{"type":"string"}}},"User":{"type":"object","properties":{"id":{"type":"number"},"first_name":{"type":"string"},"second_name":{"type":"string"},"surname":{"type":"string"},"second_sur_name":{"type":"string"},"type_document":{"type":"number"},"document_number":{"type":"string"},"email":{"type":"string"},"password":{"type":"string"},"rol_id":{"type":"number"},"phone":{"type":"string"},"state":{"type":"boolean"},"createdAt":{"type":"string"},"updatedAt":{"type":"string"}}}},"components":{},"tags":[]}
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Application with swagger docs",
+    "version": "1.0.0",
+    "description": "My application with swagger docs"
+  },
+  "paths": {
+    "/api/v1/login": {
+      "post": {
+        "tags": ["User"],
+        "security": [],
+        "description": "Realizar una petición de acceso al servidor",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Petición exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/User" },
+                  "example": {
+                    "state": true,
+                    "id": 1,
+                    "name": "Admin Admin Admin Admin",
+                    "role": "Administrador",
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidHlwZV9kb2N1bWVudCI6MSwiZG9jdW1lbnRfbnVtYmVyIjoxMjM0NTY3ODksInJvbF9pZCI6MSwic3RhdGUiOnRydWUsImlhdCI6MTY3OTcxNDMzMywiZXhwIjoxNjc5NzE3OTMzfQ.orR10QJFSOIhocMCLl4PkvR5bP2tCNvpuMN7uVKS5IQ",
+                    "message": "Ingreso exitoso"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Answer": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "number" },
+        "answer": { "type": "string" },
+        "is_correct": { "type": "boolean" },
+        "question_id": { "type": "number" },
+        "state": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      }
+    },
+    "Form": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "number" },
+        "student_id": { "type": "number" },
+        "answer_id": { "type": "number" },
+        "state": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      }
+    },
+    "Question": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "number" },
+        "question": { "type": "string" },
+        "state": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      }
+    },
+    "Role": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "number" },
+        "name": { "type": "string" },
+        "state": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      }
+    },
+    "TypesDocument": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "number" },
+        "name": { "type": "string" },
+        "state": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "number" },
+        "first_name": { "type": "string" },
+        "second_name": { "type": "string" },
+        "surname": { "type": "string" },
+        "second_sur_name": { "type": "string" },
+        "type_document": { "type": "number" },
+        "document_number": { "type": "string" },
+        "email": { "type": "string" },
+        "password": { "type": "string" },
+        "rol_id": { "type": "number" },
+        "phone": { "type": "string" },
+        "state": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}
