@@ -14,7 +14,7 @@ test.group('Crud Users', async (group) => {
     document_number: '987654321',
     email: 'estudiante_generado@gmail.com',
     password: '32jdkdi',
-    rol: 2,
+    rol_id: 2,
     phone: '32123122314',
   }
   group.setup(async () => {
@@ -56,6 +56,8 @@ test.group('Crud Users', async (group) => {
           type_document: 1,
           document_number: 100000000,
           email: 'test@test.com',
+          password: 'testExecute',
+          retype_password: 'testExecute',
           rol_id: 2,
           phone: '100000000',
         },
@@ -89,6 +91,31 @@ test.group('Crud Users', async (group) => {
     }
   })
 
+  test('Edit user - Password not match', async ({ assert }) => {
+    try {
+      await TestHttpCalls.editUser(
+        2,
+        {
+          first_name: 'Test',
+          second_name: 'Test',
+          surname: 'Test',
+          second_sur_name: 'Test',
+          type_document: 1,
+          document_number: 100000000,
+          email: 'test@test.com',
+          password: 'testExecute',
+          retype_password: 'testExecute',
+          rol_id: 2,
+          phone: '100000000',
+        },
+        adminToken
+      )
+      assert.fail()
+    } catch (error) {
+      assert.isTrue(true)
+    }
+  })
+
   test('Edit user - Valid credentials', async ({ assert }) => {
     try {
       await TestHttpCalls.editUser(
@@ -101,6 +128,7 @@ test.group('Crud Users', async (group) => {
           type_document: 1,
           document_number: 100000000,
           email: 'test@test.com',
+          password: 'testExecute',
           rol_id: 2,
           phone: '100000000',
         },

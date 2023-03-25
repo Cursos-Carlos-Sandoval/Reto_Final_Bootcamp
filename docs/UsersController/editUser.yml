@@ -1,0 +1,56 @@
+/api/v1/user/update/{id_user}:
+  put:
+    tags:
+      - User
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id_user
+        schema:
+          type: integer
+          minimum: 1
+        required: true
+        description: Id del usuario a editar
+    description: Editar un usuario existente
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/definitions/editStudentBody'
+          example:
+            {
+              'first_name': 'Ramiro',
+              'second_name': 'Jose',
+              'surname': 'Cruz',
+              'second_sur_name': 'Casallas',
+              'type_document': 1,
+              'document_number': '12000312',
+              'email': 'estu_editado@gmail.com',
+              'password': 'newPassword',
+              'retype_password': 'newPassword',
+              'rol_id': 2,
+              'phone': '32123122314',
+            }
+    responses:
+      200:
+        description: Petición exitosa
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericResponse'
+            example: { 'state': true, 'message': 'Se actualizo correctamente' }
+      400:
+        description: Petición fallida.Puede faltar información, estar mal referenciada o que el usuario ya exista
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericBadResponse'
+            example: { 'state': false, 'message': 'Error al actualizar' }
+      404:
+        description: Petición fallida - La ruta no existe o el token es invalido
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericBadResponse'
+            example: { 'state': false, 'message': 'Not found' }

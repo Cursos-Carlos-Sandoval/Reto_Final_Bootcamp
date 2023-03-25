@@ -19,7 +19,7 @@ export default class UsersController {
         documentNumber,
         email,
         password,
-        rol,
+        rolId,
         phone,
       } = dataRequest
 
@@ -33,7 +33,7 @@ export default class UsersController {
         document_number: documentNumber,
         email: email,
         password: bcryptjs.hashSync(password, salt),
-        rol_id: rol,
+        rol_id: rolId,
         phone: phone,
       })
 
@@ -126,7 +126,7 @@ export default class UsersController {
         documentNumber: body.document_number,
         email: body.email,
         password: body.password,
-        rol: body.rol,
+        rolId: body.rol_id,
         phone: body.phone,
       }
 
@@ -174,16 +174,22 @@ export default class UsersController {
   public async editUser({ request, response }: HttpContextContract) {
     const trx = await Database.transaction()
     try {
+      if (request.input('password') !== request.input('retype_password')) {
+        throw new Error('Passwords do not match')
+      }
+
+      const salt = bcryptjs.genSaltSync()
       await User.query()
         .where('id', request.param('id_user'))
         .update({
-          first_name: request.input('firstName'),
-          second_name: request.input('secondName'),
+          first_name: request.input('first_name'),
+          second_name: request.input('second_name'),
           surname: request.input('surname'),
-          second_sur_name: request.input('secondSurName'),
-          type_document: request.input('typeDocument'),
-          document_number: request.input('documentNumber'),
+          second_sur_name: request.input('second_sur_name'),
+          type_document: request.input('type_document'),
+          document_number: request.input('document_number'),
           email: request.input('email'),
+          password: bcryptjs.hashSync(request.input('password'), salt),
           phone: request.input('phone'),
         })
       await trx.commit()
@@ -233,7 +239,7 @@ export default class UsersController {
           type_document: user?.type_document,
           document_number: user?.document_number,
           email: user?.email,
-          rol: user?.rol_id,
+          rol_id: user?.rol_id,
           phone: user?.phone,
           state: user?.state,
         },
@@ -263,7 +269,7 @@ export default class UsersController {
           type_document: user?.type_document,
           document_number: user?.document_number,
           email: user?.email,
-          rol: user?.rol_id,
+          rol_id: user?.rol_id,
           phone: user?.phone,
           state: user?.state,
         },
