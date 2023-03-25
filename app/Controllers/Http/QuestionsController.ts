@@ -67,9 +67,16 @@ export default class QuestionsController {
   public async deleteById({ request, response }: HttpContextContract) {
     const trx = await Database.transaction()
     try {
+      // Delete question
       const question = await Question.findOrFail(request.param('id_question'))
       question.state = false
       await question.save()
+
+      // Delete answers
+      await Answer.query().where('question_id', question.id).update({
+        state: false,
+      })
+
       await trx.commit()
       response.status(200).send({ state: true, message: 'Pregunta eliminada con éxito' })
     } catch (error) {
