@@ -1,0 +1,47 @@
+/api/v1/user/create:
+  post:
+    tags:
+      - User
+    security:
+      - bearerAuth: []
+    description: Crea un nuevo usuario
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/definitions/loginUserRequest'
+          example:
+            {
+              'first_name': 'daniel',
+              'second_name': 'jose',
+              'surname': 'cruz',
+              'second_sur_name': 'casallas',
+              'type_document': 1,
+              'document_number': '120112014',
+              'email': 'estudiante_ejemplo@gmail.com',
+              'password': '32jdkdi',
+              'rol': 2,
+              'phone': '32123122314',
+            }
+    responses:
+      200:
+        description: Petición exitosa
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericResponse'
+            example: { 'state': true, 'message': 'Estudiante creado correctamente' }
+      400:
+        description: Petición fallida.Puede faltar información, estar mal referenciada o que el usuario ya exista
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericBadResponse'
+            example: { 'state': false, 'message': 'Error al consultar el detalle del usuario' }
+      404:
+        description: Petición fallida - La ruta no existe o el token es invalido
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericBadResponse'
+            example: { 'state': false, 'message': 'Not found' }

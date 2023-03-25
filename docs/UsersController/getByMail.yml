@@ -14,7 +14,7 @@
     description: Obtener la información de un usuario a traves de su correo de registro
     responses:
       200:
-        description: Petición exitosa. Incluso si no hay usuarios que tengan el id solicitado, el endpoint retornara 'null'
+        description: Petición exitosa
         content:
           application/json:
             schema:

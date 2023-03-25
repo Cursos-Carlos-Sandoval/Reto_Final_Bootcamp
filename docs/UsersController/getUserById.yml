@@ -15,7 +15,7 @@
     description: Obtener la información de un usuario a traves de su id
     responses:
       200:
-        description: Petición exitosa.
+        description: Petición exitosa
         content:
           application/json:
             schema:

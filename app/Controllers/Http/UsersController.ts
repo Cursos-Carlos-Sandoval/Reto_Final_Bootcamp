@@ -116,7 +116,21 @@ export default class UsersController {
 
   public async registerStudent({ request, response }: HttpContextContract) {
     try {
-      await UsersController.createUser(request.all())
+      const body = request.all()
+      const data = {
+        firstName: body.first_name,
+        secondName: body.second_name,
+        surname: body.surname,
+        secondSurName: body.second_sur_name,
+        typeDocument: body.type_document,
+        documentNumber: body.document_number,
+        email: body.email,
+        password: body.password,
+        rol: body.rol,
+        phone: body.phone,
+      }
+
+      await UsersController.createUser(data)
       response.status(200).json({ state: true, message: 'Estudiante creado correctamente' })
     } catch (error) {
       response.status(400).json({ state: false, message: 'Fallo en la creación del estudiante' })

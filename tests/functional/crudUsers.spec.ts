@@ -6,12 +6,12 @@ test.group('Crud Users', async (group) => {
   let adminToken = ''
   let studentToken = ''
   const studentBody = {
-    firstName: 'daniel',
-    secondName: 'jose',
+    first_name: 'daniel',
+    second_name: 'jose',
     surname: 'cruz',
-    secondSurName: 'casallas',
-    typeDocument: 1,
-    documentNumber: '987654321',
+    second_sur_name: 'casallas',
+    type_document: 1,
+    document_number: '987654321',
     email: 'estudiante_generado@gmail.com',
     password: '32jdkdi',
     rol: 2,
@@ -27,10 +27,11 @@ test.group('Crud Users', async (group) => {
   })
 
   test('Create user - Incomplete info', async ({ assert }) => {
-    const { firstName, secondName } = studentBody
-    await assert.rejects(
-      async () => await TestHttpCalls.createUser({ firstName, secondName }, adminToken)
-    )
+    const data = {
+      first_name: studentBody.first_name,
+      second_name: studentBody.second_name,
+    }
+    await assert.rejects(async () => await TestHttpCalls.createUser(data, adminToken))
   })
 
   test('Create user - Valid credentials', async ({ assert }) => {

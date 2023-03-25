@@ -53,6 +53,13 @@ definitions:
         type: string
       message:
         type: string
+  genericResponse:
+    type: object
+    properties:
+      state:
+        type: boolean
+      message:
+        type: string
   genericBadResponse:
     type: object
     properties:
@@ -123,3 +130,27 @@ definitions:
             type: string
           state:
             type: boolean
+  # Create student
+  createStudentBody:
+    type: object
+    properties:
+      first_name:
+        type: string
+      second_name:
+        type: string
+      surname:
+        type: string
+      second_sur_name:
+        type: string
+      type_document:
+        type: number
+      document_number:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      rol:
+        type: number
+      phone:
+        type: string
