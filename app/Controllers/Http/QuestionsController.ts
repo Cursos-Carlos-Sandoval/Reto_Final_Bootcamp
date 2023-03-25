@@ -49,9 +49,11 @@ export default class QuestionsController {
     try {
       await Question.query()
         .where('id', request.param('id_question'))
+        .andWhere('state', true)
         .update({
           question: request.input('question'),
         })
+        .firstOrFail()
       await trx.commit()
 
       response.status(200).send({ state: true, message: 'Pregunta editada con éxito' })

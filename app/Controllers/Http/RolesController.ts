@@ -23,6 +23,6 @@ export default class RolesController {
   }
 
   public async getAll(): Promise<Role[]> {
-    return await Role.all()
+    return await Role.query().select('*').where('state', true)
   }
 }

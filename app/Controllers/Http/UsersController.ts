@@ -200,15 +200,17 @@ export default class UsersController {
       response.status(200).json({ state: true, message: 'Se actualizo correctamente' })
     } catch (error) {
       await trx.rollback()
-      response.status(400).json({ state: false, message: 'Error al actualizar' })
+      response.status(400).json({ state: false, message: 'Error al editar el usuario' })
     }
   }
 
   public async deleteUser({ request, response }: HttpContextContract) {
     const trx = await Database.transaction()
     try {
-      const user = await User.findOrFail(request.param('id_user'))
-      user.state = false
+      const user = await User.query()
+        .where('id', request.param('id_user'))
+        .andWhere('state', true)
+        .firstOrFail()
       await user.save()
       await trx.commit()
       response.status(200).json({ state: true, message: 'Se elimino el estudiante correctamente' })
@@ -226,9 +228,7 @@ export default class UsersController {
       const user = await User.query()
         .where('id', request.param('id_user'))
         .andWhere('state', true)
-        .first()
-
-      if (user === null) throw new Error('User not found')
+        .firstOrFail()
 
       response.status(200).json({
         state: true,

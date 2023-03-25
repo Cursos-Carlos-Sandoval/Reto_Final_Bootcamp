@@ -25,6 +25,6 @@ export default class TypesDocumentsController {
   }
 
   public async getAll(): Promise<TypesDocument[]> {
-    return await TypesDocument.all()
+    return await TypesDocument.query().select('*').where('state', true)
   }
 }

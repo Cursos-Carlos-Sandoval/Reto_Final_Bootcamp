@@ -41,12 +41,12 @@
               $ref: '#/definitions/genericResponse'
             example: { 'state': true, 'message': 'Se actualizo correctamente' }
       400:
-        description: Petición fallida.Puede faltar información, estar mal referenciada o que el id no este relacionado con un usuario existe
+        description: Petición fallida.Puede faltar información, estar mal referenciada o que el id no este relacionado con un usuario existente
         content:
           application/json:
             schema:
               $ref: '#/definitions/genericBadResponse'
-            example: { 'state': false, 'message': 'Error al actualizar' }
+            example: { 'state': false, 'message': 'Error al editar el usuario' }
       404:
         description: Petición fallida - La ruta no existe, el usuario no tiene los permisos o el token es invalido
         content:

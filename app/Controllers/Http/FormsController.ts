@@ -6,7 +6,7 @@ import Form from '../../Models/Form'
 export default class FormsController {
   public async getAllQuestions({ response }: HttpContextContract) {
     try {
-      const answers = await Answer.query().preload('question_id').select('*').where('state', true)
+      const answers = await Answer.query().preload('question').select('*').where('state', true)
       response.status(200).send({ state: true, questions: answers ?? [] })
     } catch (error) {
       response.status(400).send({ state: false, message: 'Error al obtener el listado' })

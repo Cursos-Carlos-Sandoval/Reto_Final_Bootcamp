@@ -7,10 +7,11 @@ export default class AnswersController {
     const trx = await Database.transaction()
     try {
       await Answer.query()
-        .where('id', request.param('id_opcion'))
+        .where('id', request.param('id_answer'))
+        .andWhere('state', true)
         .update({
-          answer: request.input('opcion'),
-          is_correct: request.input('iscorrect'),
+          answer: request.input('answer'),
+          is_correct: request.input('is_correct'),
         })
 
       await trx.commit()
