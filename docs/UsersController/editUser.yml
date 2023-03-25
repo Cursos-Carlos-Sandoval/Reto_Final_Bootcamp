@@ -41,7 +41,7 @@
               $ref: '#/definitions/genericResponse'
             example: { 'state': true, 'message': 'Se actualizo correctamente' }
       400:
-        description: Petición fallida.Puede faltar información, estar mal referenciada o que el usuario ya exista
+        description: Petición fallida.Puede faltar información, estar mal referenciada o que el id no este relacionado con un usuario existe
         content:
           application/json:
             schema:

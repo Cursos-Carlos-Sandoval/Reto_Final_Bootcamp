@@ -124,7 +124,7 @@ definitions:
             type: string
           email:
             type: string
-          rol:
+          rol_id:
             type: number
           phone:
             type: string
@@ -150,7 +150,33 @@ definitions:
         type: string
       password:
         type: string
-      rol:
+      rol_id:
+        type: number
+      phone:
+        type: string
+  # Edit student
+  editStudentBody:
+    type: object
+    properties:
+      first_name:
+        type: string
+      second_name:
+        type: string
+      surname:
+        type: string
+      second_sur_name:
+        type: string
+      type_document:
+        type: number
+      document_number:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      retype_password:
+        type: string
+      rol_id:
         type: number
       phone:
         type: string

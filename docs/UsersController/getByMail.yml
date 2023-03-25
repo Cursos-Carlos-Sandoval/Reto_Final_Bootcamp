@@ -33,7 +33,7 @@
                     'type_document': 1,
                     'document_number': '987654321',
                     'email': 'estudiante_generado@gmail.com',
-                    'rol': 1,
+                    'rol_id': 1,
                     'phone': '32123122',
                     'state': true,
                   },

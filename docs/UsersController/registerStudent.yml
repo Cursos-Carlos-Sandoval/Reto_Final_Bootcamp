@@ -20,7 +20,7 @@
               'document_number': '120112014',
               'email': 'estudiante_ejemplo@gmail.com',
               'password': '32jdkdi',
-              'rol': 2,
+              'rol_id': 2,
               'phone': '32123122314',
             }
     responses:
