@@ -1,0 +1,35 @@
+/api/v1/form/postQuestions:
+  post:
+    tags:
+      - Forms
+    security:
+      - bearerAuth: []
+    description: Almacenar un respuestas del formulario
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/definitions/saveAnswersBody'
+          example: { 'student_id': 1, 'answers': [1, 2, 1, 4] }
+    responses:
+      200:
+        description: Petición exitosa
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericResponse'
+            example: { 'state': true, 'message': 'Respuestas almacenadas con éxito' }
+      400:
+        description: Petición fallida - Error interno
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericBadResponse'
+            example: { 'state': false, 'message': 'No se pudieron almacenar las respuestas' }
+      404:
+        description: Petición fallida - La ruta no existe, el usuario no tiene los permisos o el token es invalido
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericBadResponse'
+            example: { 'state': false, 'message': 'Sitio no encontrado' }

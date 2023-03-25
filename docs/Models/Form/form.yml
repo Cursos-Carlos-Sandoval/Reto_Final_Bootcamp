@@ -24,3 +24,12 @@ definitions:
                     type: number
                   answer:
                     type: string
+  saveAnswersBody:
+    type: object
+    properties:
+      student_id:
+        type: number
+      answers:
+        type: array
+        items:
+          type: number

@@ -1,19 +1,15 @@
 import { DateTime } from 'luxon'
-import { BaseModel, HasOne, column, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import User from './User'
 import Answer from './Answer'
 
 export default class Form extends BaseModel {
   @column({ isPrimary: true })
   public id: number
-  @hasOne(() => User, {
-    foreignKey: 'student_id',
-  })
-  public student_id: HasOne<typeof User>
-  @hasOne(() => Answer, {
-    foreignKey: 'answer_id',
-  })
-  public answer_id: HasOne<typeof Answer>
+  @column()
+  public student_id: number
+  @column()
+  public answer_id: number
   @column()
   public state: boolean
 
@@ -21,4 +17,16 @@ export default class Form extends BaseModel {
   public createdAt: DateTime
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @belongsTo(() => User, {
+    localKey: 'id',
+    foreignKey: 'student_id',
+  })
+  public user: BelongsTo<typeof User>
+
+  @belongsTo(() => Answer, {
+    localKey: 'id',
+    foreignKey: 'answer_id',
+  })
+  public answer: BelongsTo<typeof Answer>
 }
