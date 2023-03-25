@@ -1,21 +1,14 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import UsersController from '../Controllers/Http/UsersController'
-import User from '../Models/User'
 
 export default class ValidateAdmin {
   public async handle(ctx: HttpContextContract, next: () => Promise<void>) {
-    const authorizationHeader: string | undefined = ctx.request.header('authorization')
+    const authorizationHeader: string = ctx.request.header('authorization') ?? ''
 
-    const { id } = UsersController.getTokenPayload(authorizationHeader ?? '')
-    const user = await User.find(id)
+    const payload = UsersController.getTokenPayload(authorizationHeader)
+    const data = { rolId: payload?.rol_id, state: payload?.state }
 
-    if (!user || user === null) {
-      ctx.response.status(400).json({
-        message: 'Invalid token',
-      })
-    }
-
-    if (user?.rol_id !== 1) {
+    if (data.rolId !== 1 || data.state === false) {
       return ctx.response.status(404).json({
         state: false,
         message: 'Sitio no encontrado',

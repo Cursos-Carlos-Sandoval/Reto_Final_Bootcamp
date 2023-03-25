@@ -20,6 +20,15 @@ export default class TestHttpCalls {
     return await TestHttpCalls.getToken(body)
   }
 
+  public static async getDeletedUserToken(): Promise<string> {
+    const body = {
+      email: 'eliminado@example.com',
+      password: '123456',
+    }
+
+    return await TestHttpCalls.getToken(body)
+  }
+
   public static async getStudentToken(): Promise<string> {
     const body = {
       email: 'test@test.com',

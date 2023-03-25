@@ -17,6 +17,15 @@ test.group('Login', async (group) => {
     )
   })
 
+  test('Valid login - Deleted user', async ({ assert }) => {
+    try {
+      token = await TestHttpCalls.getDeletedUserToken()
+      assert.fail()
+    } catch (error) {
+      assert.isTrue(true)
+    }
+  })
+
   test('Valid login', async ({ assert }) => {
     try {
       token = await TestHttpCalls.getAdminToken()

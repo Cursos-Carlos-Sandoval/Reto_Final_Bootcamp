@@ -40,4 +40,13 @@ test.group('Controller', async (group) => {
       assert.isTrue(true)
     }
   })
+
+  test('Invalid params on getByEmail function', async ({ assert }) => {
+    try {
+      await TestHttpCalls.getBodyFromEmail('invalid@email.com', adminToken)
+      assert.fail()
+    } catch (error) {
+      assert.isTrue(true)
+    }
+  })
 })
