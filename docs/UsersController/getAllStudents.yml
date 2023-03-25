@@ -41,6 +41,16 @@
                       'email': 'estudiante_generado@gmail.com',
                       'phone': '32123122',
                     },
+                    {
+                      'first_name': 'daniel',
+                      'second_name': 'jose',
+                      'surname': 'cruz',
+                      'second_sur_name': 'casallas',
+                      'type_document': 1,
+                      'document_number': '987654321',
+                      'email': 'estudiante_generado@gmail.com',
+                      'phone': '32123122',
+                    },
                   ],
               }
       400:

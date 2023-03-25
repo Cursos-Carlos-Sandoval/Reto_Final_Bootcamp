@@ -9,7 +9,11 @@
         application/json:
           schema:
             $ref: '#/definitions/loginUserRequest'
-          example: { 'email': 'admin@example.com', 'password': '123456' }
+          examples:
+            adminLogin:
+              value: { 'email': 'admin@example.com', 'password': '123456' }
+            studentLogin:
+              value: { 'email': 'estudiante@example.com', 'password': '123456' }
     responses:
       200:
         description: Petición exitosa

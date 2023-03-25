@@ -17,6 +17,7 @@ export default class ValidateAdmin {
 
     if (user?.rol_id !== 1) {
       return ctx.response.status(404).json({
+        state: false,
         message: 'Not found',
       })
     }

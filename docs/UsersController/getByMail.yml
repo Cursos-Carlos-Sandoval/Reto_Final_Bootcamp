@@ -1,0 +1,59 @@
+/api/v1/user/getByMail/{email}:
+  get:
+    tags:
+      - User
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: email
+        schema:
+          type: string
+        required: true
+        description: Mail del usuario a consultar
+    description: Obtener la información de un usuario a traves de su correo de registro
+    responses:
+      200:
+        description: Petición exitosa. Incluso si no hay usuarios que tengan el id solicitado, el endpoint retornara 'null'
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/getUserByResponse'
+            example:
+              {
+                'state': true,
+                'message': 'Usuario solicitado',
+                'user':
+                  {
+                    'id': 1,
+                    'first_name': 'daniel',
+                    'second_name': 'jose',
+                    'surname': 'cruz',
+                    'second_sur_name': 'casallas',
+                    'type_document': 1,
+                    'document_number': '987654321',
+                    'email': 'estudiante_generado@gmail.com',
+                    'rol': 1,
+                    'phone': '32123122',
+                    'state': true,
+                  },
+              }
+      400:
+        description: Petición fallida - El correo electrónico no se encuentra registrado
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/getUserByResponse'
+            example:
+              {
+                'state': false,
+                'message': 'Error al consultar el detalle del usuario',
+                'user': null,
+              }
+      404:
+        description: Petición fallida - La ruta no existe o el token es invalido
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericBadResponse'
+            example: { 'state': false, 'message': 'Not found' }

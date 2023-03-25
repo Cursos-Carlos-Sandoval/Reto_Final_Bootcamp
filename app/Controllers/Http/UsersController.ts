@@ -201,43 +201,53 @@ export default class UsersController {
   public async getUserById({ request, response }: HttpContextContract) {
     try {
       const user = await User.query()
-        .select(
-          'first_name',
-          'second_name',
-          'surname',
-          'second_sur_name',
-          'type_document',
-          'document_number',
-          'email',
-          'phone'
-        )
         .where('id', request.param('id_user'))
         .andWhere('state', true)
         .first()
-      response.status(200).json({ state: true, user: user })
+
+      if (user === null) throw new Error('User not found')
+
+      response.status(200).json({
+        state: true,
+        message: 'Usuario solicitado',
+        user: {
+          id: user?.id,
+          first_name: user?.first_name,
+          second_name: user?.second_name,
+          surname: user?.surname,
+          second_sur_name: user?.second_sur_name,
+          type_document: user?.type_document,
+          document_number: user?.document_number,
+          email: user?.email,
+          rol: user?.rol_id,
+          phone: user?.phone,
+          state: user?.state,
+        },
+      })
     } catch (error) {
       response
         .status(400)
-        .json({ state: false, message: 'Error al consultar el detalle del usuario' })
+        .json({ state: false, message: 'Error al consultar el detalle del usuario', user: null })
     }
   }
 
   public async getByMail({ request, response }: HttpContextContract) {
     try {
-      const email = request.param('email')
+      const plainEmail: string = request.param('email')
+      const email = plainEmail.replace('%40', '@')
       const user = await UsersController.getUserByEmail(email)
 
       response.status(200).json({
         state: true,
-        message: 'Usuario indicado',
-        data: {
+        message: 'Usuario solicitado',
+        user: {
           id: user?.id,
-          firstName: user?.first_name,
-          secondName: user?.second_name,
+          first_name: user?.first_name,
+          second_name: user?.second_name,
           surname: user?.surname,
-          secondSurName: user?.second_sur_name,
-          typeDocument: user?.type_document,
-          documentNumber: user?.document_number,
+          second_sur_name: user?.second_sur_name,
+          type_document: user?.type_document,
+          document_number: user?.document_number,
           email: user?.email,
           rol: user?.rol_id,
           phone: user?.phone,
@@ -246,10 +256,9 @@ export default class UsersController {
       })
     } catch (error) {
       console.error(error)
-      response.status(400).json({
-        state: false,
-        message: 'Error al obtener el usuario',
-      })
+      response
+        .status(400)
+        .json({ state: false, message: 'Error al consultar el detalle del usuario', user: null })
     }
   }
 }
