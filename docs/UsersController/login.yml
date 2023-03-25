@@ -1,0 +1,35 @@
+/api/v1/login:
+  post:
+    tags:
+      - Login
+    security: []
+    description: Realizar una petición de acceso al servidor
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/definitions/loginUserRequest'
+          example: { 'email': 'admin@example.com', 'password': '123456' }
+    responses:
+      200:
+        description: Petición exitosa
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/loginUserResponse'
+            example:
+              {
+                'state': true,
+                'id': 1,
+                'name': 'Carlos Sandoval',
+                'role': 'Administrador',
+                'token': 'API_TOKEN_EXAMPLE',
+                'message': 'Ingreso exitoso',
+              }
+      404:
+        description: Petición fallida - Datos erróneos
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericBadResponse'
+            example: { 'state': false, 'message': 'contraseña o email invalido' }

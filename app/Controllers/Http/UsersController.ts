@@ -131,10 +131,10 @@ export default class UsersController {
     try {
       user = await UsersController.getUserByEmail(email)
       if (!UsersController.isValidPassword(password, user))
-        return response.status(400).json({ state: false, message: 'contraseña o email invalido ' })
+        return response.status(400).json({ state: false, message: 'contraseña o email invalido' })
     } catch (error) {
       console.error(error)
-      return response.status(400).json({ state: false, message: 'contraseña o email invalido ' })
+      return response.status(400).json({ state: false, message: 'contraseña o email invalido' })
     }
 
     const payload = {

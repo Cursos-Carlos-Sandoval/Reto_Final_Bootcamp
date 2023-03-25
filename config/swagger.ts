@@ -12,13 +12,22 @@ export default {
     definition: {
       openapi: '3.0.0',
       info: {
-        title: 'Application with swagger docs',
+        title: 'Documentación del reto final - Backend Bootcamp',
         version: '1.0.0',
-        description: 'My application with swagger docs',
+        description: 'Api encargada de la administración de evaluaciones aplicadas a los docentes',
+      },
+      components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: 'http',
+            scheme: 'bearer',
+            bearerFormat: 'JWT',
+          },
+        },
       },
     },
 
-    apis: ['app/**/*.ts', 'docs/swagger/**/*.yml', 'start/routes.ts'],
+    apis: ['app/**/*.ts', 'docs/**/*.yml', 'start/routes.ts'],
     basePath: '/',
   },
   mode: process.env.NODE_ENV === 'production' ? 'PRODUCTION' : 'RUNTIME',

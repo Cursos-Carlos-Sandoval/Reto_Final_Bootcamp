@@ -17,7 +17,7 @@ export default class User extends BaseModel {
   @column()
   public type_document: number
   @column()
-  public document_number: number
+  public document_number: string
   @column()
   public email: string
   @column()

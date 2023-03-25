@@ -1,0 +1,91 @@
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        type: number
+      first_name:
+        type: string
+      second_name:
+        type: string
+      surname:
+        type: string
+      second_sur_name:
+        type: string
+      type_document:
+        type: number
+      document_number:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      rol_id:
+        type: number
+      phone:
+        type: string
+      state:
+        type: boolean
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+  # Login
+  loginUserRequest:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+  loginUserResponse:
+    type: object
+    properties:
+      state:
+        type: boolean
+      id:
+        type: number
+      name:
+        type: string
+      role:
+        type: string
+      token:
+        type: string
+      message:
+        type: string
+  genericBadResponse:
+    type: object
+    properties:
+      state:
+        type: boolean
+      message:
+        type: string
+  # Get All
+  getAllStudentsResponse:
+    type: object
+    properties:
+      state:
+        type: boolean
+      message:
+        type: string
+      users:
+        type: array
+        items:
+          type: object
+          properties:
+            first_name:
+              type: string
+            second_name:
+              type: string
+            surname:
+              type: string
+            second_sur_name:
+              type: string
+            type_document:
+              type: number
+            document_number:
+              type: string
+            email:
+              type: string
+            phone:
+              type: string
