@@ -201,6 +201,16 @@ export default class UsersController {
   public async getUserById({ request, response }: HttpContextContract) {
     try {
       const user = await User.query()
+        .select(
+          'first_name',
+          'second_name',
+          'surname',
+          'second_sur_name',
+          'type_document',
+          'document_number',
+          'email',
+          'phone'
+        )
         .where('id', request.param('id_user'))
         .andWhere('state', true)
         .first()

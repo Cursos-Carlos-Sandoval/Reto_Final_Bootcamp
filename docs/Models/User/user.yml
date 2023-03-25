@@ -89,3 +89,30 @@ definitions:
               type: string
             phone:
               type: string
+  # Get By id
+  getUserByIdResponse:
+    type: object
+    properties:
+      state:
+        type: boolean
+      message:
+        type: string
+      user:
+        type: object
+        properties:
+          first_name:
+            type: string
+          second_name:
+            type: string
+          surname:
+            type: string
+          second_sur_name:
+            type: string
+          type_document:
+            type: number
+          document_number:
+            type: string
+          email:
+            type: string
+          phone:
+            type: string
