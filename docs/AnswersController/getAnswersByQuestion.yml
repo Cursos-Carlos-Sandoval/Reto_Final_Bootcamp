@@ -1,0 +1,49 @@
+/api/v1/questions/getAnswers/{id_question}:
+  get:
+    tags:
+      - Answer
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id_question
+        schema:
+          type: integer
+          minimum: 1
+        required: true
+        description: Id de la pregunta a consultar
+    description: Obtener la información de respuestas relacionadas a una pregunta a traves de su id
+    responses:
+      200:
+        description: Petición exitosa
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/getAnswersByQuestion'
+            example:
+              {
+                'state': true,
+                'message': 'Listado de opciones',
+                'options':
+                  [
+                    { 'id': 1, 'answer': 'esta es correcta' },
+                    { 'id': 2, 'answer': 'incorrecta' },
+                    { 'id': 3, 'answer': 'incorrecta' },
+                    { 'id': 4, 'answer': 'incorrecta' },
+                  ],
+              }
+      400:
+        description: El id indicado es invalido
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/getUserByResponse'
+            example:
+              { 'state': false, 'message': 'Error al obtener el listado de opciones', 'user': null }
+      404:
+        description: Petición fallida - La ruta no existe, el usuario no tiene los permisos o el token es invalido
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/genericBadResponse'
+            example: { 'state': false, 'message': 'Sitio no encontrado' }

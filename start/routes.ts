@@ -43,7 +43,7 @@ Route.group(() => {
         Route.put('/editQuestion/:id_question', 'QuestionsController.editById')
         Route.delete('/deleteQuestion/:id_question', 'QuestionsController.deleteById')
 
-        Route.get('/getAnswers/:id_question', 'AnswersController.getAnswersByIdQuestion')
+        Route.get('/getAnswers/:id_question', 'AnswersController.getAnswersByQuestionId')
         Route.put('/updateAnswer/:id_answer', 'AnswersController.editById')
       }).middleware('admin')
     }).prefix('/questions')

@@ -1,18 +1,17 @@
 definitions:
-  Answer:
+  getAnswersByQuestion:
     type: object
     properties:
-      id:
-        type: number
-      answer:
-        type: string
-      is_correct:
-        type: boolean
-      question_id:
-        type: number
       state:
         type: boolean
-      createdAt:
+      message:
         type: string
-      updatedAt:
-        type: string
+      options:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: number
+            answer:
+              type: string
