@@ -178,9 +178,12 @@ export default class UsersController {
         throw new Error('Passwords do not match')
       }
 
+      await User.findOrFail(request.param('id_user'))
+
       const salt = bcryptjs.genSaltSync()
       await User.query()
         .where('id', request.param('id_user'))
+        .andWhere('state', true)
         .update({
           first_name: request.input('first_name'),
           second_name: request.input('second_name'),

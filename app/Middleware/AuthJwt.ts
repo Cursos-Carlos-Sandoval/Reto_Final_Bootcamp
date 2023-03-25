@@ -17,7 +17,7 @@ export default class AuthJwt {
       await next()
     } catch (error) {
       console.log(error)
-      ctx.response.status(401).send({ state: false, message: 'Token fail' })
+      ctx.response.status(404).send({ state: false, message: 'Token fail' })
     }
   }
 }
