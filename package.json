@@ -8,8 +8,7 @@
     "start": "node server.js",
     "lint": "eslint . --ext=.ts",
     "format": "prettier --write .",
-    "__cleanDb": "node ace migration:rollback && node ace migration:run",
-    "test": "pnpm run __cleanDb && npx nyc node ace test && npx nyc report --reporter=lcov",
+    "test": "npx nyc node ace test && npx nyc report --reporter=lcov",
     "docs": "node ace swagger:generate"
   },
   "eslintConfig": {
